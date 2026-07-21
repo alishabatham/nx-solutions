@@ -25,7 +25,7 @@ export function Navbar() {
     { name: 'Solutions', path: '/solution' },
     { name: 'About Us', path: '#' },
     { name: 'Resources', path: '#' },
-    { name: 'Contact Us', path: '#' },
+    { name: 'Contact Us', path: '/contact' },
   ];
 
   const navbarBg = isScrolled 

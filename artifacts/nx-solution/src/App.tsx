@@ -12,6 +12,7 @@ import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import Home from '@/pages/Home';
 import Explorer from '@/pages/Explorer';
 import Solution from '@/pages/Solution';
+import Contact from '@/pages/Contact';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,9 @@ function Router() {
         
         {/* Solution Route */}
         <Route path="/solution" component={Solution} />
+
+        {/* Contact Route */}
+        <Route path="/contact" component={Contact} />
         
         <Route component={NotFound} />
       </Switch>
