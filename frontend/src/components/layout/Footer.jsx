@@ -13,16 +13,16 @@ export function Footer() {
                 NX
               </div>
               <span className="text-xl font-extrabold tracking-tight text-slate-900">
-                nx solution
+                NX Solutions
               </span>
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed max-w-sm font-normal">
               Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control.
             </p>
             <div className="flex flex-col gap-2.5 mt-6 text-xs font-medium">
-              <a href="mailto:hello@nxsolution.ai" className="flex items-center gap-2.5 text-slate-600 hover:text-slate-900 transition-colors">
+              <a href="mailto:hello@nxsolutions.ai" className="flex items-center gap-2.5 text-slate-600 hover:text-slate-900 transition-colors">
                 <Mail className="w-4 h-4 text-slate-400" />
-                hello@nxsolution.ai
+                hello@nxsolutions.ai
               </a>
               <a href="tel:+923000000000" className="flex items-center gap-2.5 text-slate-600 hover:text-slate-900 transition-colors">
                 <Phone className="w-4 h-4 text-slate-400" />
@@ -67,7 +67,7 @@ export function Footer() {
         </div>
 
         <div className="pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-medium">
-          <p>&copy; {new Date().getFullYear()} NX Solution. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} NX Solutions. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="#" className="hover:text-slate-600 transition-colors">Privacy Policy</Link>
             <Link href="#" className="hover:text-slate-600 transition-colors">Terms of Service</Link>

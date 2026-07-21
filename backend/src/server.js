@@ -5,6 +5,7 @@ import { connectDB } from './config/db.js';
 import healthRoutes from './routes/healthRoutes.js';
 import contactRoutes from './routes/contactRoutes.js';
 import inquiryRoutes from './routes/inquiryRoutes.js';
+import cmsRoutes from './routes/cmsRoutes.js';
 
 dotenv.config();
 
@@ -16,13 +17,14 @@ connectDB();
 
 // Middleware
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Routes
 app.use('/api/health', healthRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/cms', cmsRoutes);
 
 // Root route
 app.get('/', (_req, res) => {
@@ -31,7 +33,8 @@ app.get('/', (_req, res) => {
     endpoints: {
       health: '/api/health',
       contact: '/api/contact',
-      inquiries: '/api/inquiries'
+      inquiries: '/api/inquiries',
+      cms: '/api/cms/:pageKey'
     }
   });
 });

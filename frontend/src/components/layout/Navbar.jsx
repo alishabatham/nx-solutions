@@ -34,7 +34,7 @@ export function Navbar() {
             NX
           </div>
           <span className="text-base font-semibold tracking-tight text-slate-900">
-            nx solution
+            NX Solutions
           </span>
         </Link>
 

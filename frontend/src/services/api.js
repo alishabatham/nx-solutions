@@ -34,6 +34,61 @@ export async function submitInquiryForm(data) {
   return result;
 }
 
+export async function fetchPageCMS(pageKey) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/cms/${pageKey}`);
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.warn(`[CMS Warning] Could not fetch dynamic CMS content for '${pageKey}'. Using local defaults.`);
+    return null;
+  }
+}
+
+export async function savePageCMS(pageKey, payload) {
+  const response = await fetch(`${API_BASE_URL}/cms/${pageKey}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || 'Failed to save page content.');
+  }
+
+  return result;
+}
+
+export async function loginAdmin(password) {
+  const response = await fetch(`${API_BASE_URL}/cms/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ password }),
+  });
+
+  const result = await response.json();
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || 'Invalid admin credentials.');
+  }
+
+  return result;
+}
+
+export async function fetchContactSubmissions() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/contact`);
+    const result = await response.json();
+    return result.data || [];
+  } catch (error) {
+    return [];
+  }
+}
+
 export async function checkBackendHealth() {
   try {
     const response = await fetch(`${API_BASE_URL}/health`);

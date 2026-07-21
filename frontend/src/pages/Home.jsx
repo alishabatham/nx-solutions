@@ -1,78 +1,72 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Sparkles } from 'lucide-react';
+import { fetchPageCMS } from '@/services/api';
 
-const features = [
+const defaultFeatures = [
   {
-    iconGradient: 'from-blue-600 to-indigo-600',
-    iconShape: (
-      <svg className="w-12 h-12 text-blue-600" viewBox="0 0 48 48" fill="none">
-        <circle cx="24" cy="24" r="18" stroke="url(#grad1)" strokeWidth="4" strokeDasharray="90 30" />
-        <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2563eb" />
-            <stop offset="100%" stopColor="#e11d48" />
-          </linearGradient>
-        </defs>
-      </svg>
-    ),
     title: 'AI-Powered diagnostics',
     description: 'Our tools analyze vast streams of operational data to identify potential security risks early.',
   },
   {
-    iconGradient: 'from-sky-500 to-blue-600',
-    iconShape: (
-      <div className="flex items-end gap-1.5 h-12 w-12 justify-center pb-1">
-        <div className="w-2.5 h-6 bg-slate-200 rounded-full" />
-        <div className="w-2.5 h-10 bg-slate-300 rounded-full" />
-        <div className="w-2.5 h-7 bg-slate-200 rounded-full" />
-      </div>
-    ),
     title: 'Personalized access plans',
     description: 'Individual risk profiles, ensuring the most effective and personalized security protocols for everyone.',
   },
   {
-    iconGradient: 'from-purple-500 to-indigo-600',
-    iconShape: (
-      <svg className="w-12 h-12 text-slate-300" viewBox="0 0 48 48" fill="none">
-        <path d="M24 8 C15 8 8 15 8 24 C8 33 15 40 24 40 C33 40 40 33 40 24" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-        <path d="M24 16 C19 16 16 19 16 24" stroke="#2563eb" strokeWidth="3" strokeLinecap="round" />
-      </svg>
-    ),
     title: 'Cutting-edge automation',
     description: 'We utilize cutting-edge AI technology to develop innovative security solutions that transform physical safety.',
   },
   {
-    iconGradient: 'from-amber-400 to-orange-500',
-    iconShape: (
-      <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-300">
-        <Sparkles className="w-6 h-6 text-slate-300" />
-      </div>
-    ),
     title: 'Real-time spatial insights',
     description: 'Deep analysis of facility logs to uncover critical operational patterns and Mustering counts.',
   },
 ];
 
 export default function Home() {
+  const [heroContent, setHeroContent] = useState({
+    headline: 'Revolutionizing enterprise security with ai and automation',
+    pillBadge: 'enterprise security',
+    subtitle: 'Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control.',
+  });
+
+  const [features, setFeatures] = useState(defaultFeatures);
+
+  useEffect(() => {
+    async function loadCMS() {
+      const cms = await fetchPageCMS('home');
+      if (cms) {
+        if (cms.hero) setHeroContent(cms.hero);
+        if (cms.cards && cms.cards.length > 0) setFeatures(cms.cards);
+      }
+    }
+    loadCMS();
+  }, []);
+
   return (
     <main className="w-full bg-[#f7f8fa] text-slate-900 overflow-hidden min-h-screen">
-      {/* ── Hero Section (Ultra Clean & Minimal) ── */}
+      {/* ── Hero Section ── */}
       <section className="pt-36 pb-14 px-6 text-center flex flex-col items-center justify-center">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
           
-          {/* Main Headline with Dark Pill Badge - Lighter Font Weight */}
+          {/* Main Headline with Dynamic Dark Pill Badge */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="text-[clamp(2.4rem,5vw,4.5rem)] font-semibold text-slate-900 tracking-tight leading-[1.15] mb-6"
           >
-            Revolutionizing{' '}
-            <span className="pill-badge-dark font-normal tracking-normal align-middle my-1">
-              enterprise security
-            </span>{' '}
-            with ai and automation
+            {heroContent.headline.includes(heroContent.pillBadge) ? (
+              <>
+                {heroContent.headline.split(heroContent.pillBadge)[0]}
+                <span className="pill-badge-dark font-normal tracking-normal align-middle my-1">
+                  {heroContent.pillBadge}
+                </span>
+                {heroContent.headline.split(heroContent.pillBadge)[1]}
+              </>
+            ) : (
+              heroContent.headline
+            )}
           </motion.h1>
 
           {/* Subtitle */}
@@ -82,7 +76,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-slate-500 text-base md:text-lg max-w-xl mx-auto font-normal leading-relaxed mb-10"
           >
-            Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control.
+            {heroContent.subtitle}
           </motion.p>
         </div>
       </section>
@@ -93,16 +87,18 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {features.map((item, index) => (
               <motion.div
-                key={item.title}
+                key={item.title || index}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 className="bg-white rounded-[32px] p-8 md:p-9 soft-card-shadow soft-card-hover border border-slate-100/80 flex flex-col items-center text-center justify-between min-h-[320px]"
               >
-                {/* Top Icon Visual */}
+                {/* Visual Icon Badge */}
                 <div className="my-3 flex items-center justify-center">
-                  {item.iconShape}
+                  <div className="w-12 h-12 rounded-full bg-[#eef2ff] flex items-center justify-center text-blue-600">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
                 </div>
 
                 {/* Title & Description */}

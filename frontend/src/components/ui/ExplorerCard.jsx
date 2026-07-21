@@ -1,48 +1,58 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { IconMap } from '@/data/explorer';
+import { 
+  GraduationCap, Heart, Factory, Building2, Truck, Landmark, 
+  ShoppingBag, Plane, Train, Zap, Shield, Cpu, Activity, Layers
+} from 'lucide-react';
 
-export function ExplorerCard({ title, subtitle, image, onClick }) {
+const FallbackIcons = {
+  education: GraduationCap,
+  healthcare: Heart,
+  manufacturing: Factory,
+  corporate: Building2,
+  logistics: Truck,
+  banking: Landmark,
+  retail: ShoppingBag,
+  airport: Plane,
+  railway: Train,
+  energy: Zap,
+};
+
+export function ExplorerCard({ id, title, subtitle, icon, onClick }) {
+  let IconComponent = icon ? IconMap[icon] : null;
+
+  if (!IconComponent && id) {
+    IconComponent = FallbackIcons[id.toLowerCase()] || Shield;
+  }
+
+  if (!IconComponent) {
+    IconComponent = Layers;
+  }
+
   return (
     <motion.div
-      whileHover={{ y: -8, scale: 1.015 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative rounded-[32px] overflow-hidden cursor-pointer bg-slate-900 border border-slate-100 soft-card-shadow soft-card-hover h-[480px] w-[300px] sm:w-[320px] md:w-[350px] shrink-0 snap-start flex flex-col justify-between p-8"
+      whileHover={{ y: -5, scale: 1.012 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative rounded-[24px] sm:rounded-[28px] cursor-pointer bg-white border border-slate-100 soft-card-shadow soft-card-hover min-h-[190px] sm:min-h-[220px] flex flex-col items-center justify-center text-center p-6 sm:p-8 transition-all"
       onClick={onClick}
     >
-      {/* Background Image Thumbnail */}
-      {image ? (
-        <div className="absolute inset-0 z-0">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 opacity-90 group-hover:scale-108 group-hover:opacity-95"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/10" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 bg-[#0f172a]" />
+      {/* Top Centered Blue Icon Badge */}
+      <div className="w-11 h-11 sm:w-13 sm:h-13 rounded-2xl bg-blue-50/90 border border-blue-100 flex items-center justify-center text-blue-600 mb-3 sm:mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300 shadow-sm shrink-0">
+        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2]" />
+      </div>
+
+      {/* Centered Title */}
+      <h3 className="font-bold text-base sm:text-lg leading-snug tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors">
+        {title}
+      </h3>
+
+      {/* Centered Subtitle */}
+      {subtitle && (
+        <p className="text-[0.75rem] sm:text-xs font-normal mt-1 sm:mt-1.5 leading-relaxed text-slate-500 max-w-[220px]">
+          {subtitle}
+        </p>
       )}
-
-      {/* Top Action Arrow */}
-      <div className="relative z-10 flex items-center justify-end">
-        <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center group-hover:bg-white group-hover:text-slate-900 transition-all duration-300 shadow-md">
-          <ArrowUpRight className="w-5 h-5" />
-        </div>
-      </div>
-
-      {/* Bottom Content (Title & Subtitle) */}
-      <div className="relative z-10 mt-auto pt-6">
-        <h3 className="font-semibold text-2xl leading-snug tracking-tight text-white group-hover:text-blue-200 transition-colors drop-shadow-sm">
-          {title}
-        </h3>
-        {subtitle && (
-          <p className="text-xs font-normal mt-2 leading-relaxed text-slate-300/90 line-clamp-3">
-            {subtitle}
-          </p>
-        )}
-      </div>
     </motion.div>
   );
 }

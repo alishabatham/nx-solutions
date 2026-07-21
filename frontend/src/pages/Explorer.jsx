@@ -1,17 +1,17 @@
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRoute, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Breadcrumb } from '@/components/ui/ExplorerBreadcrumb';
 import { ExplorerCard, PageTransition } from '@/components/ui/ExplorerCard';
+import { fetchPageCMS } from '@/services/api';
 import {
-  industries, getDomains, getAreas, getModules, getProblems,
+  industries as initialIndustries, getDomains, getAreas, getModules, getProblems,
   toTitleCase,
 } from '@/data/explorer';
 
 export default function Explorer() {
   const [, setLocation] = useLocation();
-  const sliderRef = useRef(null);
+  const [cmsData, setCmsData] = useState({});
 
   const [matchIndustries] = useRoute('/industries');
   const [matchIndustry, paramsIndustry] = useRoute('/industries/:industry');
@@ -19,8 +19,18 @@ export default function Explorer() {
   const [matchArea, paramsArea] = useRoute('/industries/:industry/:domain/:area');
   const [matchModule, paramsModule] = useRoute('/industries/:industry/:domain/:area/:module');
 
+  useEffect(() => {
+    async function loadCMS() {
+      const cms = await fetchPageCMS('explorer_all_levels');
+      if (cms && cms.sections) {
+        setCmsData(cms.sections);
+      }
+    }
+    loadCMS();
+  }, []);
+
   let level = 'industries';
-  let data = industries;
+  let data = cmsData.industries || initialIndustries;
   let title = 'Select Your Industry';
   let subtitle = 'Choose your operational domain to see tailored AI solutions.';
 
@@ -28,7 +38,8 @@ export default function Explorer() {
 
   if (matchModule) {
     level = 'problems';
-    data = getProblems(paramsModule.module);
+    const key = `problems_${paramsModule.module}`;
+    data = (cmsData[key]) || getProblems(paramsModule.module);
     title = 'Select Problem';
     subtitle = 'Identify the specific operational challenge you are facing.';
     breadcrumbItems.push({ name: toTitleCase(paramsModule.industry), path: `/industries/${paramsModule.industry}` });
@@ -37,7 +48,8 @@ export default function Explorer() {
     breadcrumbItems.push({ name: toTitleCase(paramsModule.module), path: `/industries/${paramsModule.industry}/${paramsModule.domain}/${paramsModule.area}/${paramsModule.module}` });
   } else if (matchArea) {
     level = 'modules';
-    data = getModules(paramsArea.area);
+    const key = `modules_${paramsArea.area}`;
+    data = (cmsData[key]) || getModules(paramsArea.area);
     title = 'Select Module';
     subtitle = 'Choose the AI security or automation module required.';
     breadcrumbItems.push({ name: toTitleCase(paramsArea.industry), path: `/industries/${paramsArea.industry}` });
@@ -45,14 +57,16 @@ export default function Explorer() {
     breadcrumbItems.push({ name: toTitleCase(paramsArea.area), path: `/industries/${paramsArea.industry}/${paramsArea.domain}/${paramsArea.area}` });
   } else if (matchDomain) {
     level = 'areas';
-    data = getAreas(paramsDomain.domain);
+    const key = `areas_${paramsDomain.domain}`;
+    data = (cmsData[key]) || getAreas(paramsDomain.domain);
     title = 'Select Area';
     subtitle = 'Select the specific location or operational zone.';
     breadcrumbItems.push({ name: toTitleCase(paramsDomain.industry), path: `/industries/${paramsDomain.industry}` });
     breadcrumbItems.push({ name: toTitleCase(paramsDomain.domain), path: `/industries/${paramsDomain.industry}/${paramsDomain.domain}` });
   } else if (matchIndustry) {
     level = 'domains';
-    data = getDomains(paramsIndustry.industry);
+    const key = `domains_${paramsIndustry.industry}`;
+    data = (cmsData[key]) || getDomains(paramsIndustry.industry);
     title = 'Select Domain';
     subtitle = 'Narrow down to your specific institution type.';
     breadcrumbItems.push({ name: toTitleCase(paramsIndustry.industry), path: `/industries/${paramsIndustry.industry}` });
@@ -72,21 +86,9 @@ export default function Explorer() {
     }
   };
 
-  const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -360, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 360, behavior: 'smooth' });
-    }
-  };
-
   return (
     <motion.main
-      className="w-full bg-[#f7f8fa] min-h-screen pt-32 pb-24 px-4 md:px-6"
+      className="w-full bg-[#f7f8fa] min-h-screen pt-28 pb-20 px-4 md:px-6 text-slate-900"
       initial="initial"
       animate="animate"
       exit="exit"
@@ -95,54 +97,33 @@ export default function Explorer() {
       <div className="container mx-auto max-w-6xl">
         <Breadcrumb items={breadcrumbItems} />
 
-        {/* Header with Slider Control Buttons */}
-        <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/60 pb-6">
+        {/* Section Header */}
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/60 pb-5">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5 block">
+            <span className="text-[0.68rem] sm:text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1 block">
               Step-by-Step Industry Navigator
             </span>
-            <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight">{title}</h1>
-            <p className="text-slate-500 text-sm md:text-base mt-1 font-normal">{subtitle}</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-tight">{title}</h1>
+            <p className="text-slate-500 text-xs sm:text-sm md:text-base mt-1 font-normal leading-relaxed">{subtitle}</p>
           </div>
 
-          {/* Slider Arrow Controls */}
-          <div className="flex items-center gap-3 self-start md:self-auto">
-            <span className="text-xs font-medium text-slate-500 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm mr-2">
-              {data.length} Options
-            </span>
-            <button
-              onClick={scrollLeft}
-              className="w-10 h-10 rounded-full bg-white hover:bg-slate-900 hover:text-white border border-slate-200 text-slate-700 flex items-center justify-center transition-all shadow-sm active:scale-95 cursor-pointer"
-              aria-label="Previous Slide"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={scrollRight}
-              className="w-10 h-10 rounded-full bg-white hover:bg-slate-900 hover:text-white border border-slate-200 text-slate-700 flex items-center justify-center transition-all shadow-sm active:scale-95 cursor-pointer"
-              aria-label="Next Slide"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
+          <div className="text-xs font-medium text-slate-500 bg-white px-3.5 py-1.5 rounded-full border border-slate-200 shadow-sm shrink-0 self-start sm:self-auto">
+            {data.length} Options
           </div>
         </div>
 
-        {/* Horizontal Card Slider Container */}
-        <div className="relative">
-          <div
-            ref={sliderRef}
-            className="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory py-4 px-1"
-          >
-            {data.map((item) => (
-              <ExplorerCard
-                key={item.id}
-                title={item.name}
-                subtitle={item.subtitle}
-                image={item.image}
-                onClick={() => handleCardClick(item)}
-              />
-            ))}
-          </div>
+        {/* Grid Layout: Responsive 2-column grid on mobile for perfect fit */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          {data.map((item) => (
+            <ExplorerCard
+              key={item.id}
+              id={item.id}
+              title={item.name}
+              subtitle={item.subtitle}
+              icon={item.icon}
+              onClick={() => handleCardClick(item)}
+            />
+          ))}
         </div>
       </div>
     </motion.main>
