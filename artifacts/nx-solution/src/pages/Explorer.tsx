@@ -90,19 +90,16 @@ export default function Explorer() {
           <p className="text-gray-500 text-lg">{subtitle}</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {data.map((item) => {
-            const IconComponent = IconMap[item.icon] || IconMap['Building2'];
-            return (
-              <ExplorerCard 
-                key={item.id}
-                title={item.name}
-                subtitle={item.subtitle}
-                icon={<IconComponent size={32} strokeWidth={1.5} />}
-                onClick={() => handleCardClick(item)}
-              />
-            );
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {data.map((item) => (
+            <ExplorerCard
+              key={item.id}
+              title={item.name}
+              subtitle={item.subtitle}
+              image={item.image}
+              onClick={() => handleCardClick(item)}
+            />
+          ))}
         </div>
       </div>
     </motion.main>
