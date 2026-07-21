@@ -9,24 +9,6 @@ args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
 
 [workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "NX Solution"
-
-[[workflows.workflow]]
-name = "NX Solution"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "PORT=22239 BASE_PATH=/ pnpm --filter @workspace/nx-solution run dev"
 
 [agent]
 stack = "PNPM_WORKSPACE"
