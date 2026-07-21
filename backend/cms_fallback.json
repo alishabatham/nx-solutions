@@ -1,0 +1,28 @@
+{
+  "home": {
+    "pageKey": "home",
+    "hero": {
+      "headline": "Revolutionizing enterprise security with ai and automation",
+      "pillBadge": "enterprise security",
+      "subtitle": "Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control."
+    },
+    "cards": [
+      {
+        "title": "AI-Powered diagnostics",
+        "description": "Our tools analyze vast streams of operational data to identify potential security risks early."
+      },
+      {
+        "title": "Personalized access plans",
+        "description": "Individual risk profiles, ensuring the most effective and personalized security protocols for everyone."
+      },
+      {
+        "title": "Cutting-edge automation",
+        "description": "We utilize cutting-edge AI technology to develop innovative security solutions that transform physical safety."
+      },
+      {
+        "title": "Real-time spatial insights",
+        "description": "Deep analysis of facility logs to uncover critical operational patterns and Mustering counts."
+      }
+    ]
+  }
+}
