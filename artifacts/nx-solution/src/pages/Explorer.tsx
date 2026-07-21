@@ -1,30 +1,28 @@
 import { useRoute, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
-import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { Breadcrumb } from '@/components/ui/ExplorerBreadcrumb';
 import { ExplorerCard, PageTransition } from '@/components/ui/ExplorerCard';
-import { 
-  industries, getDomains, getAreas, getModules, getProblems, 
-  IconMap, toTitleCase 
+import {
+  industries, getDomains, getAreas, getModules, getProblems,
+  toTitleCase,
 } from '@/data/explorer';
 
 export default function Explorer() {
   const [, setLocation] = useLocation();
-  
-  // Custom parsing since standard wouter nested optional params can be tricky
+
   const [matchIndustries] = useRoute('/industries');
   const [matchIndustry, paramsIndustry] = useRoute('/industries/:industry');
   const [matchDomain, paramsDomain] = useRoute('/industries/:industry/:domain');
   const [matchArea, paramsArea] = useRoute('/industries/:industry/:domain/:area');
   const [matchModule, paramsModule] = useRoute('/industries/:industry/:domain/:area/:module');
 
-  // Determine current level
   let level = 'industries';
   let data: any[] = industries;
   let title = 'Select Your Industry';
   let subtitle = 'Choose your operational domain to see tailored AI solutions.';
-  
+
   const breadcrumbItems = [{ name: 'Industries', path: '/industries' }];
-  
+
   if (matchModule) {
     level = 'problems';
     data = getProblems(paramsModule!.module);
@@ -67,16 +65,13 @@ export default function Explorer() {
     } else if (level === 'modules') {
       setLocation(`/industries/${paramsArea!.industry}/${paramsArea!.domain}/${paramsArea!.area}/${item.id}`);
     } else if (level === 'problems') {
-      // Direct to solution detail page, passing context via state or query if needed,
-      // but standard wouter state isn't always preserved well across reloads.
-      // We'll simply link to /solution for the requirement.
       setLocation(`/solution`);
     }
   };
 
   return (
-    <motion.main 
-      className="w-full bg-slate-50 min-h-screen pt-28 pb-20 px-4 md:px-6"
+    <motion.main
+      className="w-full bg-white min-h-screen pt-28 pb-20 px-4 md:px-6"
       initial="initial"
       animate="animate"
       exit="exit"
@@ -84,10 +79,10 @@ export default function Explorer() {
     >
       <div className="container mx-auto max-w-6xl">
         <Breadcrumb items={breadcrumbItems} />
-        
-        <div className="mb-10 text-center md:text-left">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{title}</h1>
-          <p className="text-gray-500 text-lg">{subtitle}</p>
+
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-2 tracking-tight">{title}</h1>
+          <p className="text-slate-500 text-base">{subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">

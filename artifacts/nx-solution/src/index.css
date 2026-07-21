@@ -49,74 +49,40 @@
 }
 
 :root {
-  /* NX Solution Light Theme (For Explorer Pages) */
-  --background: 210 40% 98%; /* slate-50 */
-  --foreground: 222 47% 11%;
-  
-  --border: 214 32% 91%;
-  --input: 214 32% 91%;
+  /* NX Solution — Clean Light Theme */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 9%;
+
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
   --ring: 221 83% 53%;
 
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --card-border: 214 32% 91%;
+  --card-foreground: 222 47% 9%;
+  --card-border: 220 13% 91%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --popover-border: 214 32% 91%;
-
-  --primary: 221 83% 53%; /* #1d4ed8 / blue-700 */
-  --primary-foreground: 210 40% 98%;
-  
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222 47% 11%;
-
-  --muted: 210 40% 96%;
-  --muted-foreground: 215 16% 47%;
-
-  --accent: 210 40% 96%;
-  --accent-foreground: 222 47% 11%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
-
-  --app-font-sans: 'Inter', sans-serif;
-  --app-font-mono: 'Space Mono', monospace;
-  --radius: 0.5rem;
-}
-
-.dark {
-  /* NX Solution Dark Theme (For Hero & Dark Sections) */
-  /* Deep navy: #0a0e27 approx 232 59% 10% */
-  --background: 232 59% 10%; 
-  --foreground: 210 40% 98%;
-
-  --border: 215 28% 17%;
-  --input: 215 28% 17%;
-  --ring: 224 76% 48%;
-
-  --card: 230 45% 13%;
-  --card-foreground: 210 40% 98%;
-  --card-border: 215 28% 17%;
-
-  --popover: 230 45% 13%;
-  --popover-foreground: 210 40% 98%;
-  --popover-border: 215 28% 17%;
+  --popover-foreground: 222 47% 9%;
+  --popover-border: 220 13% 91%;
 
   --primary: 221 83% 53%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 215 28% 17%;
-  --secondary-foreground: 210 40% 98%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 222 47% 9%;
 
-  --muted: 215 28% 17%;
-  --muted-foreground: 215 20% 65%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
 
-  --accent: 215 28% 17%;
-  --accent-foreground: 210 40% 98%;
+  --accent: 221 83% 96%;
+  --accent-foreground: 221 83% 40%;
 
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --app-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --app-font-mono: 'Space Mono', monospace;
+  --radius: 0.5rem;
 }
 
 @layer base {
@@ -129,21 +95,28 @@
   }
 }
 
-.hero-gradient {
-  background: radial-gradient(circle at 50% 50%, rgba(29, 78, 216, 0.15) 0%, rgba(10, 14, 39, 1) 100%);
+/* Subtle dot grid for hero */
+.dot-grid {
+  background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-.circuit-pattern {
-  background-image: 
-    linear-gradient(rgba(29, 78, 216, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(29, 78, 216, 0.2) 1px, transparent 1px);
-  background-size: 40px 40px;
+/* Smooth underline animation for nav links */
+.nav-underline {
+  position: relative;
 }
-
-.glow-text {
-  text-shadow: 0 0 20px rgba(29, 78, 216, 0.5);
+.nav-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: hsl(var(--primary));
+  border-radius: 2px;
+  transition: width 0.2s ease;
 }
-
-.glow-box {
-  box-shadow: 0 0 30px rgba(29, 78, 216, 0.2);
+.nav-underline:hover::after,
+.nav-underline.active::after {
+  width: 100%;
 }

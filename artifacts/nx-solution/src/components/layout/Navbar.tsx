@@ -8,13 +8,8 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
 
-  // Determine if we need dark mode navbar (Home) or light mode navbar (Explorer pages)
-  const isHomePage = location === '/';
-  
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 16);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -28,82 +23,111 @@ export function Navbar() {
     { name: 'Contact Us', path: '/contact' },
   ];
 
-  const navbarBg = isScrolled 
-    ? (isHomePage ? 'bg-[#0a0e27]/90 backdrop-blur-md border-b border-blue-900/30' : 'bg-white/90 backdrop-blur-md border-b border-gray-200') 
-    : (isHomePage ? 'bg-transparent' : 'bg-white border-b border-gray-100');
-
-  const textColor = isHomePage ? 'text-white' : (isScrolled ? 'text-gray-900' : 'text-gray-900');
-  const logoColor = isHomePage ? 'text-white' : 'text-primary';
-
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${navbarBg}`}>
-      <div className="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
+    <header
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80'
+          : 'bg-white border-b border-slate-100'
+      }`}
+    >
+      <div className="container mx-auto px-4 md:px-6 h-18 flex items-center justify-between" style={{ height: '72px' }}>
         {/* Logo */}
-        <Link href="/" className="flex flex-col items-start gap-0 cursor-pointer group">
-          <div className={`text-3xl font-black tracking-tight leading-none flex items-center ${logoColor}`}>
-            NX <div className="w-2 h-2 rounded-full bg-blue-500 ml-1 mt-1 group-hover:scale-150 transition-transform"></div>
+        <Link href="/" className="flex flex-col items-start cursor-pointer group">
+          <div className="text-2xl font-black tracking-tight leading-none flex items-center text-slate-900">
+            NX
+            <span className="w-2 h-2 rounded-full bg-blue-600 ml-1 mb-1 group-hover:scale-125 transition-transform inline-block" />
           </div>
-          <span className={`text-[0.6rem] font-bold tracking-[0.2em] leading-none ${isHomePage ? 'text-blue-400' : 'text-gray-500'}`}>
-            SOLUTION
+          <span className="text-[0.58rem] font-bold tracking-[0.22em] leading-none text-slate-400 uppercase">
+            Solution
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.path}
-              className={`text-sm font-medium hover:text-blue-500 transition-colors ${textColor} ${location === link.path ? 'text-blue-500' : ''}`}
-            >
-              {link.name}
-            </Link>
-          ))}
+        <nav className="hidden md:flex items-center gap-7">
+          {navLinks.map((link) => {
+            const isActive = location === link.path && link.path !== '#';
+            return (
+              <Link
+                key={link.name}
+                href={link.path}
+                className={`nav-underline text-sm font-medium transition-colors duration-150 ${
+                  isActive ? 'text-blue-600 active' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <Link href="/solution" className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/contact"
+            className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-3 py-2"
+          >
+            Sign In
+          </Link>
+          <Link
+            href="/solution"
+            className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm transition-all duration-150 shadow-sm hover:shadow-md"
+          >
             Book Demo
           </Link>
         </div>
 
         {/* Mobile Toggle */}
-        <button 
-          className="md:hidden p-2"
+        <button
+          className="md:hidden p-2 rounded-md hover:bg-slate-100 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X className={textColor} /> : <Menu className={textColor} />}
+          {mobileMenuOpen ? (
+            <X className="w-5 h-5 text-slate-700" />
+          ) : (
+            <Menu className="w-5 h-5 text-slate-700" />
+          )}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-20 left-0 w-full bg-[#0a0e27] border-b border-blue-900/30 p-6 flex flex-col gap-4 shadow-xl"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.18 }}
+            className="absolute top-full left-0 w-full bg-white border-b border-slate-200 shadow-lg px-4 py-5 flex flex-col gap-1"
           >
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.path}
-                className="text-white text-lg font-medium border-b border-blue-900/30 pb-3 flex justify-between items-center"
+            {navLinks.map((link) => {
+              const isActive = location === link.path && link.path !== '#';
+              return (
+                <Link
+                  key={link.name}
+                  href={link.path}
+                  className={`flex justify-between items-center px-3 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-blue-50 text-blue-600'
+                      : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.name}
+                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                </Link>
+              );
+            })}
+            <div className="pt-3 mt-2 border-t border-slate-100">
+              <Link
+                href="/solution"
+                className="block w-full px-4 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm text-center transition-all"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {link.name}
-                <ChevronRight className="w-5 h-5 text-blue-500" />
+                Book Demo
               </Link>
-            ))}
-            <Link 
-              href="/solution"
-              className="mt-4 px-6 py-3 rounded-md bg-blue-600 text-white font-medium text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Book Demo
-            </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
