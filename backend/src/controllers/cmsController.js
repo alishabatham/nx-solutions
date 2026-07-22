@@ -49,6 +49,9 @@ const writeFallbackData = (pageKey, data) => {
   return false;
 };
 
+// Global in-memory cache for serverless & local fallback persistence
+const memoryStore = {};
+
 export const getPageContent = async (req, res) => {
   try {
     const { pageKey } = req.params;
@@ -61,8 +64,13 @@ export const getPageContent = async (req, res) => {
           return res.status(200).json({ success: true, data: content });
         }
       } catch (dbError) {
-        console.warn('[MongoDB Get Error, falling back to JSON]:', dbError.message);
+        console.warn('[MongoDB Get Error, falling back to Memory/JSON]:', dbError.message);
       }
+    }
+
+    // Return from in-memory cache if available
+    if (memoryStore[pageKey]) {
+      return res.status(200).json({ success: true, data: memoryStore[pageKey] });
     }
     
     // Fallback to JSON
@@ -95,11 +103,13 @@ export const getPageContent = async (req, res) => {
 export const updatePageContent = async (req, res) => {
   try {
     const { pageKey } = req.params;
-    const { title, hero, sections, cards, settings } = req.body;
-    const payload = { pageKey, title, hero, sections, cards, settings };
+    const payload = { pageKey, ...req.body };
 
     let updatedContent = null;
     let savedToDB = false;
+
+    // Always update in-memory cache first
+    memoryStore[pageKey] = payload;
 
     // Check if MongoDB is connected
     if (mongoose.connection.readyState === 1) {
@@ -111,11 +121,11 @@ export const updatePageContent = async (req, res) => {
         );
         savedToDB = true;
       } catch (dbError) {
-        console.warn('[MongoDB Update Error, falling back to JSON]:', dbError.message);
+        console.warn('[MongoDB Update Error, falling back to Memory]:', dbError.message);
       }
     }
 
-    // Always update/save fallback JSON file for local robustness
+    // Always attempt to update/save fallback JSON file for local robustness
     writeFallbackData(pageKey, payload);
 
     if (!updatedContent) {
@@ -126,7 +136,7 @@ export const updatePageContent = async (req, res) => {
       success: true,
       message: savedToDB 
         ? `Page content for '${pageKey}' updated successfully (DB).`
-        : `Page content for '${pageKey}' updated successfully (Local JSON Fallback).`,
+        : `Page content for '${pageKey}' updated successfully (Memory/Fallback).`,
       data: updatedContent
     });
   } catch (error) {

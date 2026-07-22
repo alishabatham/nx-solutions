@@ -40,14 +40,29 @@ export async function fetchPageCMS(pageKey) {
   try {
     const response = await fetch(`${API_BASE_URL}/cms/${pageKey}`);
     const result = await response.json();
-    return result.data;
+    if (result && result.data) {
+      try {
+        localStorage.setItem(`nx_cms_cache_${pageKey}`, JSON.stringify(result.data));
+      } catch (e) {}
+      return result.data;
+    }
   } catch (error) {
     console.warn(`[CMS Warning] Could not fetch dynamic CMS content for '${pageKey}'. Using local defaults.`);
-    return null;
   }
+
+  try {
+    const cached = localStorage.getItem(`nx_cms_cache_${pageKey}`);
+    if (cached) return JSON.parse(cached);
+  } catch (e) {}
+
+  return null;
 }
 
 export async function savePageCMS(pageKey, payload) {
+  try {
+    localStorage.setItem(`nx_cms_cache_${pageKey}`, JSON.stringify(payload));
+  } catch (e) {}
+
   const response = await fetch(`${API_BASE_URL}/cms/${pageKey}`, {
     method: 'POST',
     headers: {
