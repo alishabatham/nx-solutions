@@ -147,16 +147,6 @@ export default function Explorer() {
           </div>
         </div>
 
-        {/* Problem Warning Alert Banner */}
-        {isProblemLevel && (
-          <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200/80 text-rose-900 mb-6 flex items-center gap-3 shadow-2xs">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
-            <p className="text-xs sm:text-sm font-medium">
-              Below are the specific operational challenges. Click on any problem to view its customized AI solution blueprint and ROI metrics.
-            </p>
-          </div>
-        )}
-
         {/* Grid Layout */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {data.map((item) => (
