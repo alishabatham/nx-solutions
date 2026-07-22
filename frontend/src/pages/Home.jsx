@@ -384,39 +384,66 @@ export default function Home() {
 
 
       {/* ── SECTION 05: OUR SOLUTION ENGINEERING PROCESS ── */}
-      <section className="py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
-        <div className="container mx-auto max-w-7xl text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-            OUR SOLUTION ENGINEERING PROCESS
+      <section className="py-24 px-4 sm:px-6 bg-slate-900 text-white relative overflow-hidden border-b border-slate-800">
+        {/* Ambient Glow & Tech Grid */}
+        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-emerald-500/10 blur-[150px] rounded-full pointer-events-none"></div>
+
+        <div className="container mx-auto max-w-7xl relative z-10 text-center space-y-12">
+          
+          <div className="space-y-4 max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              OUR SOLUTION ENGINEERING PROCESS
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
+              7-Step Methodology for End-to-End Success
+            </h2>
+            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
+              A disciplined engineering workflow that transforms complex operational bottlenecks into seamless, automated intelligence.
+            </p>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">
-            Step-by-step Methodology for Success
-          </h2>
-          <p className="text-slate-500 text-sm max-w-2xl mx-auto mb-14">
-            From initial site observation to continuous system optimization.
-          </p>
+          {/* Stepper Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 relative text-left">
+            {processSteps.map((step, idx) => {
+              const icons = { Glasses, Search, BarChart2, PenTool, Cpu, Rocket, RefreshCcw };
+              const IconComp = icons[step.icon] || CheckCircle2;
+              return (
+                <div 
+                  key={step.step}
+                  className="group relative bg-slate-950/80 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col justify-between space-y-5 overflow-hidden backdrop-blur-md"
+                >
+                  {/* Top Gradient Accent Strip */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 opacity-40 group-hover:opacity-100 transition-opacity"></div>
 
-          {/* Process Horizontal Timeline */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 relative">
-            {processSteps.map((step, idx) => (
-              <div 
-                key={step.step}
-                className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center space-y-3 relative group"
-              >
-                <span className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">
-                  {step.step}
-                </span>
-                <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="w-5 h-5" />
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 shadow-2xs">
+                      STEP {step.step}
+                    </span>
+                    {idx < processSteps.length - 1 && (
+                      <ChevronRight className="w-4 h-4 text-slate-700 hidden xl:block group-hover:text-emerald-400 transition-colors" />
+                    )}
+                  </div>
+
+                  {/* Glowing Icon Container */}
+                  <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 text-emerald-400 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-600 group-hover:text-slate-950 group-hover:border-transparent group-hover:scale-110 transition-all duration-300 shadow-md">
+                    <IconComp className="w-6 h-6" />
+                  </div>
+
+                  {/* Title & Description */}
+                  <div className="space-y-1.5 pt-2">
+                    <h3 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">
+                      {step.title}
+                    </h3>
+                    <p className="text-[0.73rem] text-slate-400 font-normal leading-relaxed">
+                      {step.desc}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xs font-bold text-slate-900 mb-1">{step.title}</h3>
-                  <p className="text-[0.68rem] text-slate-500 font-normal leading-relaxed">{step.desc}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
