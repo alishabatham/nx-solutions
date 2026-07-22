@@ -1,6 +1,7 @@
 import { Route, Switch } from 'wouter';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import Home from '@/pages/Home';
 import Explorer from '@/pages/Explorer';
 import Solution from '@/pages/Solution';
@@ -28,6 +29,7 @@ function Router() {
 export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#f7f8fa]">
+      <ScrollToTop />
       <Navbar />
       <div className="flex-1">
         <Router />
