@@ -2,27 +2,19 @@
   "home": {
     "pageKey": "home",
     "hero": {
-      "headline": "Revolutionizing enterprise security with ai and automation",
-      "pillBadge": "enterprise security",
-      "subtitle": "Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control."
+      "badge": "01 HERO SECTION",
+      "headline": "Engineering Intelligent Solutions for Modern Operations",
+      "highlightText": "Intelligent Solutions",
+      "subtitle": "AI & IoT powered ecosystems that solve real-world operational challenges and make operations smarter, faster, safer and more efficient.",
+      "primaryBtnText": "Explore Industries",
+      "secondaryBtnText": "Schedule Consultation"
     },
-    "cards": [
-      {
-        "title": "AI-Powered diagnostics",
-        "description": "Our tools analyze vast streams of operational data to identify potential security risks early."
-      },
-      {
-        "title": "Personalized access plans",
-        "description": "Individual risk profiles, ensuring the most effective and personalized security protocols for everyone."
-      },
-      {
-        "title": "Cutting-edge automation",
-        "description": "We utilize cutting-edge AI technology to develop innovative security solutions that transform physical safety."
-      },
-      {
-        "title": "Real-time spatial insights",
-        "description": "Deep analysis of facility logs to uncover critical operational patterns and Mustering counts."
-      }
-    ]
+    "about": {
+      "badge": "02 ABOUT NX SOLUTION",
+      "title": "Pioneering AI & IoT Engineering for Complex Environments",
+      "description1": "NX Solution is an AI & IoT Solution Engineering company that designs and deploys intelligent ecosystems to solve complex operational challenges across industries.",
+      "description2": "We don't sell off-the-shelf products. We engineer complete end-to-end solutions tailored around real operational challenges.",
+      "description3": "Every organization is unique. Every challenge is different. That's why every solution we build is designed specifically for your operational environment."
+    }
   }
 }
