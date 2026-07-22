@@ -41,12 +41,6 @@ export function ExplorerCard({ id, title, subtitle, icon, onClick, isProblemLeve
       }`}
       onClick={onClick}
     >
-      {isProblemLevel && (
-        <div className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-[0.65rem] font-bold border border-rose-200 tracking-wider uppercase">
-          Problem
-        </div>
-      )}
-
       {/* Top Centered Icon Badge */}
       <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-colors duration-300 shadow-sm shrink-0 border ${
         isProblemLevel

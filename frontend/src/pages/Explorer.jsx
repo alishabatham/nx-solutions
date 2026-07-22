@@ -134,19 +134,6 @@ export default function Explorer() {
         {/* Section Header */}
         <div className="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/60 pb-5">
           <div>
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 ${
-              isProblemLevel
-                ? 'bg-rose-100 text-rose-700 border border-rose-200'
-                : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-            }`}>
-              {isProblemLevel ? (
-                <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-              ) : (
-                <Layers className="w-3.5 h-3.5 text-emerald-600" />
-              )}
-              STEP {stepIndex} OF 5: {isProblemLevel ? 'OPERATIONAL PROBLEMS' : level.toUpperCase()}
-            </div>
-
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
               {title}
             </h1>
