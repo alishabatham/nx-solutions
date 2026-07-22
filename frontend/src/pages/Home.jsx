@@ -50,31 +50,42 @@ export default function Home() {
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden font-sans">
 
       {/* ── SECTION 01: HERO SECTION ── */}
-      <section className="relative min-h-[92vh] bg-slate-950 text-white pt-36 pb-20 px-4 sm:px-6 flex flex-col justify-center items-center text-center overflow-hidden border-b border-slate-800/60">
-        {/* Tech Grid Background Pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
-        
-        {/* Glow Accents */}
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/15 blur-[140px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-10 left-10 w-[350px] h-[200px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+      <section className="relative min-h-[92vh] bg-slate-950 text-white pt-36 pb-20 px-4 sm:px-6 flex flex-col justify-center items-center text-center overflow-hidden border-b border-slate-800/80">
+        {/* Advanced Tech Grid Pattern & Ambient Glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-35"></div>
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-emerald-500/20 blur-[150px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 right-10 w-[350px] h-[250px] bg-teal-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="container mx-auto max-w-5xl relative z-10 flex flex-col items-center text-center space-y-7">
 
-          {/* Main Middle Aligned Headline */}
+          {/* Subtly Glowing Pill Badge */}
+          <motion.div 
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-medium tracking-wide backdrop-blur-md shadow-lg shadow-emerald-500/5"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>AI & IoT Solution Engineering</span>
+            <span className="text-slate-600">|</span>
+            <span className="text-slate-300 font-normal">Enterprise Automation</span>
+          </motion.div>
+
+          {/* Main High-Impact Middle Aligned Headline */}
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.12] text-white max-w-4xl mx-auto"
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-extrabold tracking-tight leading-[1.08] text-white max-w-4xl mx-auto"
           >
-            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">Intelligent Solutions</span> for Modern Operations
+            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 gradient-text-glow">Intelligent Solutions</span> for Modern Operations
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             className="text-slate-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto"
           >
             {hero.subtitle}
@@ -84,12 +95,12 @@ export default function Home() {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap items-center justify-center gap-4 pt-2"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap items-center justify-center gap-4 pt-3"
           >
             <Link
               href="/industries"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-all duration-300 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/40 transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-sm transition-all duration-300 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/40 transform hover:-translate-y-0.5 cursor-pointer"
             >
               {hero.primaryBtnText || 'Explore Industries'}
               <ArrowRight className="w-4 h-4" />
@@ -97,35 +108,56 @@ export default function Home() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 transition-all duration-300 hover:border-slate-500 shadow-md"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700/80 transition-all duration-300 hover:border-emerald-500/50 shadow-md backdrop-blur-md cursor-pointer"
             >
               <Calendar className="w-4 h-4 text-emerald-400" />
               {hero.secondaryBtnText || 'Schedule Consultation'}
             </Link>
           </motion.div>
 
+          {/* Enterprise Metrics Bar */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="pt-2 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-slate-400 font-medium border-t border-slate-800/80 max-w-xl mx-auto"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>50+ Vertical Verticals</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>Real-Time AI Vision</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span>99.9% Operational Reliability</span>
+            </div>
+          </motion.div>
+
           {/* Centered Image Grid Showcase Banner */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="w-full pt-8"
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="w-full pt-6"
           >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
               {hero.heroImages.map((img, i) => (
                 <div
                   key={i}
-                  className="group relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl h-36 sm:h-44"
+                  className="group relative rounded-2xl overflow-hidden border border-slate-800/90 hover:border-emerald-500/50 shadow-2xl h-36 sm:h-44 transition-all duration-500 glass-card-dark"
                 >
                   <img 
                     src={img.url} 
                     alt={img.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 opacity-75 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
-                  <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between">
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
                     <span className="text-[0.7rem] font-bold text-white tracking-wide truncate">{img.title}</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 shadow-sm shadow-emerald-400/80"></span>
                   </div>
                 </div>
               ))}
