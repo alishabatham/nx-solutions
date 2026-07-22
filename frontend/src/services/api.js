@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const rawApiUrl = import.meta.env.VITE_API_URL || 'https://nx-solutions-7i7v.vercel.app/api';
+const cleanApiUrl = rawApiUrl.replace(/\/+$/, '');
+const API_BASE_URL = cleanApiUrl.endsWith('/api') ? cleanApiUrl : `${cleanApiUrl}/api`;
 
 export async function submitContactForm(data) {
   const response = await fetch(`${API_BASE_URL}/contact`, {

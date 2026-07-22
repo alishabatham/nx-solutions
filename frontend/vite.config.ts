@@ -17,8 +17,9 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
-        changeOrigin: true
+        target: 'https://nx-solutions-7i7v.vercel.app',
+        changeOrigin: true,
+        secure: false
       }
     }
   }
