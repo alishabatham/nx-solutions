@@ -59,15 +59,6 @@ export default function Home() {
         <div className="absolute bottom-10 left-10 w-[350px] h-[200px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
         <div className="container mx-auto max-w-5xl relative z-10 flex flex-col items-center text-center space-y-7">
-          {/* Section Tag Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-widest"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            01 HERO SECTION
-          </motion.div>
 
           {/* Main Middle Aligned Headline */}
           <motion.h1 
@@ -151,7 +142,7 @@ export default function Home() {
           {/* Section Tag */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-xs font-semibold uppercase tracking-widest mb-6">
             <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-            02 ABOUT NX SOLUTION
+            ABOUT NX SOLUTION
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-14">
@@ -227,7 +218,7 @@ export default function Home() {
         <div className="container mx-auto max-w-7xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-4">
             <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-            03 FROM CHALLENGES TO SOLUTIONS
+            FROM CHALLENGES TO SOLUTIONS
           </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-2">
@@ -311,7 +302,7 @@ export default function Home() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
                 <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-                04 INDUSTRIES WE SERVE
+                INDUSTRIES WE SERVE
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
                 Tailored AI & IoT Solutions across Verticals
@@ -365,7 +356,7 @@ export default function Home() {
         <div className="container mx-auto max-w-7xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-4">
             <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-            05 OUR SOLUTION ENGINEERING PROCESS
+            OUR SOLUTION ENGINEERING PROCESS
           </div>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">
@@ -405,7 +396,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
               <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-              06 OUR SOLUTIONS
+              OUR SOLUTIONS
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
               Enterprise Solution Suite
@@ -446,7 +437,7 @@ export default function Home() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
                 <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-                07 OUR CURRENT WORK
+                OUR CURRENT WORK
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
                 Live Projects & Deployments
@@ -504,7 +495,7 @@ export default function Home() {
         <div className="container mx-auto max-w-7xl text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
             <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-            08 TECHNOLOGY ECOSYSTEM
+            TECHNOLOGY ECOSYSTEM
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
@@ -535,7 +526,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
               <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-              09 CLIENTS TRUST US
+              CLIENTS TRUST US
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
               What Operational Leaders Say
@@ -574,7 +565,7 @@ export default function Home() {
             <div className="lg:col-span-8 space-y-6 text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-widest">
                 <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                10 LET'S BUILD SMARTER OPERATIONS TOGETHER
+                LET'S BUILD SMARTER OPERATIONS TOGETHER
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">

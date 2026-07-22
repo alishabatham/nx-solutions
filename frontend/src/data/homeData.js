@@ -1,5 +1,5 @@
 export const defaultHero = {
-  badge: '01 HERO SECTION',
+  badge: '',
   headline: 'Engineering Intelligent Solutions for Modern Operations',
   highlightText: 'Intelligent Solutions',
   subtitle: 'AI & IoT powered ecosystems that solve real-world operational challenges and make operations smarter, faster, safer and more efficient.',
@@ -15,7 +15,7 @@ export const defaultHero = {
 };
 
 export const aboutSection = {
-  badge: '02 ABOUT NX SOLUTION',
+  badge: 'ABOUT NX SOLUTION',
   title: 'Pioneering AI & IoT Engineering for Complex Environments',
   description1: 'NX Solution is an AI & IoT Solution Engineering company that designs and deploys intelligent ecosystems to solve complex operational challenges across industries.',
   description2: 'We don\'t sell off-the-shelf products. We engineer complete end-to-end solutions tailored around real operational challenges.',
@@ -44,7 +44,7 @@ export const aboutSection = {
 };
 
 export const challengesToSolutions = {
-  badge: '03 FROM CHALLENGES TO SOLUTIONS',
+  badge: 'FROM CHALLENGES TO SOLUTIONS',
   title: 'Transforming Friction into Seamless Automation',
   subtitle: 'A systematic engineering framework that bridges operational gaps.',
   challenges: [
