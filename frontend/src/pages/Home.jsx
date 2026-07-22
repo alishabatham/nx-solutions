@@ -18,6 +18,10 @@ export default function Home() {
   const [, setLocation] = useLocation();
   const [hero, setHero] = useState(defaultHero);
   const [about, setAbout] = useState(aboutSection);
+  const [challenges, setChallenges] = useState(challengesToSolutions);
+  const [solutions, setSolutions] = useState(solutionsList);
+  const [projects, setProjects] = useState(currentWorkProjects);
+  const [testimonials, setTestimonials] = useState(clientTestimonials);
 
   useEffect(() => {
     async function loadCMS() {
@@ -25,6 +29,10 @@ export default function Home() {
       if (cms) {
         if (cms.hero) setHero((prev) => ({ ...prev, ...cms.hero }));
         if (cms.about) setAbout((prev) => ({ ...prev, ...cms.about }));
+        if (cms.challenges) setChallenges((prev) => ({ ...prev, ...cms.challenges }));
+        if (cms.solutions && cms.solutions.length > 0) setSolutions(cms.solutions);
+        if (cms.projects && cms.projects.length > 0) setProjects(cms.projects);
+        if (cms.testimonials && cms.testimonials.length > 0) setTestimonials(cms.testimonials);
       }
     }
     loadCMS();
@@ -249,10 +257,10 @@ export default function Home() {
           </div>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-2">
-            {challengesToSolutions.title}
+            {challenges.title}
           </h2>
           <p className="text-slate-500 text-sm sm:text-base max-w-2xl mb-12">
-            {challengesToSolutions.subtitle}
+            {challenges.subtitle}
           </p>
 
           {/* 3 Column Process Diagram */}
@@ -267,7 +275,7 @@ export default function Home() {
                 <span className="text-[0.65rem] font-semibold bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full">Pain Points</span>
               </div>
               <ul className="space-y-3">
-                {challengesToSolutions.challenges.map((c, i) => (
+                {challenges.challenges.map((c, i) => (
                   <li key={i} className="flex items-center gap-3 p-3 rounded-xl bg-rose-50/50 text-xs sm:text-sm font-medium text-slate-700">
                     <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                     {c}
@@ -285,7 +293,7 @@ export default function Home() {
                 <span className="text-[0.65rem] font-semibold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">6 Steps</span>
               </div>
               <div className="space-y-3">
-                {challengesToSolutions.approach.map((step) => (
+                {challenges.approach.map((step) => (
                   <div key={step.step} className="flex items-center gap-3 p-3 rounded-xl bg-blue-50/50 border border-blue-100/60">
                     <span className="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
                       {step.step}
@@ -308,7 +316,7 @@ export default function Home() {
                 <span className="text-[0.65rem] font-semibold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">Results</span>
               </div>
               <ul className="space-y-3">
-                {challengesToSolutions.outcomes.map((o, i) => (
+                {challenges.outcomes.map((o, i) => (
                   <li key={i} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50/50 text-xs sm:text-sm font-medium text-slate-800">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     {o}
@@ -463,7 +471,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {solutionsList.map((sol) => (
+            {solutions.map((sol) => (
               <div 
                 key={sol.id}
                 className="bg-[#f8fafc] rounded-2xl p-6 border border-slate-200 hover:border-emerald-500/50 hover:bg-white hover:shadow-md transition-all duration-300 group"
@@ -512,7 +520,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentWorkProjects.map((proj) => (
+            {projects.map((proj) => (
               <div 
                 key={proj.id}
                 className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
@@ -524,7 +532,7 @@ export default function Home() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-3 left-3">
-                    <span className={`text-[0.65rem] font-bold px-3 py-1 rounded-full border backdrop-blur-md ${proj.statusBg}`}>
+                    <span className={`text-[0.65rem] font-bold px-3 py-1 rounded-full border backdrop-blur-md ${proj.statusBg || 'bg-emerald-500/80 text-white'}`}>
                       {proj.status}
                     </span>
                   </div>

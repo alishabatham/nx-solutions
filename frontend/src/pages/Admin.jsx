@@ -26,6 +26,10 @@ const availableIcons = [
   { id: 'Activity', label: 'Monitoring (Activity)', icon: Activity },
 ];
 
+import { 
+  defaultHero, aboutSection, challengesToSolutions, solutionsList, currentWorkProjects, clientTestimonials
+} from '@/data/homeData';
+
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
@@ -45,19 +49,14 @@ export default function Admin() {
     problems_facial_attendance: getProblems('facial_attendance'),
   });
 
-  // Home Page State
+  // Comprehensive Home Page State
   const [homeData, setHomeData] = useState({
-    hero: {
-      headline: 'Revolutionizing enterprise security with ai and automation',
-      pillBadge: 'enterprise security',
-      subtitle: 'Empowering organizations and security teams with advanced diagnostic tools, real-time vision, and automated access control.'
-    },
-    features: [
-      { title: 'AI-Powered diagnostics', description: 'Our tools analyze vast streams of operational data to identify potential security risks early.' },
-      { title: 'Personalized access plans', description: 'Individual risk profiles, ensuring the most effective and personalized security protocols for everyone.' },
-      { title: 'Cutting-edge automation', description: 'We utilize cutting-edge AI technology to develop innovative security solutions that transform physical safety.' },
-      { title: 'Real-time spatial insights', description: 'Deep analysis of facility logs to uncover critical operational patterns and Mustering counts.' },
-    ]
+    hero: defaultHero,
+    about: aboutSection,
+    challenges: challengesToSolutions,
+    solutions: solutionsList,
+    projects: currentWorkProjects,
+    testimonials: clientTestimonials,
   });
 
   // Form Submissions State
@@ -79,10 +78,14 @@ export default function Admin() {
     try {
       // Load Home Content
       const cmsHome = await fetchPageCMS('home');
-      if (cmsHome && cmsHome.hero) {
+      if (cmsHome) {
         setHomeData((prev) => ({
-          hero: cmsHome.hero || prev.hero,
-          features: cmsHome.cards || prev.features
+          hero: cmsHome.hero ? { ...prev.hero, ...cmsHome.hero } : prev.hero,
+          about: cmsHome.about ? { ...prev.about, ...cmsHome.about } : prev.about,
+          challenges: cmsHome.challenges ? { ...prev.challenges, ...cmsHome.challenges } : prev.challenges,
+          solutions: cmsHome.solutions && cmsHome.solutions.length > 0 ? cmsHome.solutions : prev.solutions,
+          projects: cmsHome.projects && cmsHome.projects.length > 0 ? cmsHome.projects : prev.projects,
+          testimonials: cmsHome.testimonials && cmsHome.testimonials.length > 0 ? cmsHome.testimonials : prev.testimonials,
         }));
       }
 
@@ -129,9 +132,13 @@ export default function Admin() {
       await savePageCMS('home', {
         pageKey: 'home',
         hero: homeData.hero,
-        cards: homeData.features
+        about: homeData.about,
+        challenges: homeData.challenges,
+        solutions: homeData.solutions,
+        projects: homeData.projects,
+        testimonials: homeData.testimonials,
       });
-      showToast('Home page saved successfully!');
+      showToast('All Home page content saved successfully!');
     } catch (err) {
       showToast('Error saving home content.');
     } finally {
@@ -284,51 +291,118 @@ export default function Admin() {
         {/* ── TAB 1: HOME PAGE EDITOR ── */}
         {activeTab === 'home' && (
           <div className="space-y-10">
-            <div className="bg-white rounded-[36px] p-8 md:p-12 soft-card-shadow border border-slate-100/80">
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
-                <h2 className="text-lg font-semibold text-slate-900">Hero Section Settings</h2>
-                <button
-                  onClick={saveHome}
-                  disabled={saving}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-slate-900 hover:bg-blue-600 text-white font-medium text-xs transition-all shadow-md cursor-pointer"
-                >
-                  <Save className="w-4 h-4" />
-                  {saving ? 'Saving...' : 'Save Hero'}
-                </button>
+            
+            {/* Save Button Header */}
+            <div className="flex items-center justify-between bg-white rounded-[28px] p-6 border border-slate-100 soft-card-shadow">
+              <div>
+                <h2 className="text-lg font-bold text-slate-900">Home Page CMS Content</h2>
+                <p className="text-xs text-slate-500">Edit any section of the Home Page and save all changes live.</p>
               </div>
+              <button
+                onClick={saveHome}
+                disabled={saving}
+                className="flex items-center gap-2 px-7 py-3 rounded-full bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition-all shadow-md cursor-pointer"
+              >
+                <Save className="w-4 h-4" />
+                {saving ? 'Saving...' : 'Save All Home Content'}
+              </button>
+            </div>
 
-              <div className="space-y-6">
+            {/* Hero Section */}
+            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
+              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">1. Hero Section</h3>
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Headline Text</label>
-                  <input
-                    type="text"
-                    value={homeData.hero.headline}
-                    onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, headline: e.target.value } })}
-                    className="w-full text-lg font-medium text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Dark Pill Badge Highlighted Word</label>
-                  <input
-                    type="text"
-                    value={homeData.hero.pillBadge}
-                    onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, pillBadge: e.target.value } })}
-                    className="w-full text-sm font-medium text-slate-900 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Subtitle</label>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Subtitle</label>
                   <textarea
                     rows={3}
-                    value={homeData.hero.subtitle}
+                    value={homeData.hero.subtitle || ''}
                     onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, subtitle: e.target.value } })}
-                    className="w-full text-sm text-slate-600 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none resize-none font-normal"
+                    className="w-full text-sm text-slate-800 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Primary Button Text</label>
+                    <input
+                      type="text"
+                      value={homeData.hero.primaryBtnText || 'Explore Industries'}
+                      onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, primaryBtnText: e.target.value } })}
+                      className="w-full text-sm font-medium text-slate-900 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Secondary Button Text</label>
+                    <input
+                      type="text"
+                      value={homeData.hero.secondaryBtnText || 'Schedule Consultation'}
+                      onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, secondaryBtnText: e.target.value } })}
+                      className="w-full text-sm font-medium text-slate-900 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* About Section */}
+            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
+              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">2. About NX Solution Section</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">About Title</label>
+                  <input
+                    type="text"
+                    value={homeData.about.title || ''}
+                    onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, title: e.target.value } })}
+                    className="w-full text-base font-bold text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Paragraph 1</label>
+                  <textarea
+                    rows={2}
+                    value={homeData.about.description1 || ''}
+                    onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, description1: e.target.value } })}
+                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Paragraph 2</label>
+                  <textarea
+                    rows={2}
+                    value={homeData.about.description2 || ''}
+                    onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, description2: e.target.value } })}
+                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
                   />
                 </div>
               </div>
             </div>
+
+            {/* From Challenges to Solutions Section */}
+            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
+              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">3. Challenges to Solutions Section</h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Section Title</label>
+                  <input
+                    type="text"
+                    value={homeData.challenges.title || ''}
+                    onChange={(e) => setHomeData({ ...homeData, challenges: { ...homeData.challenges, title: e.target.value } })}
+                    className="w-full text-base font-bold text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Section Subtitle</label>
+                  <textarea
+                    rows={2}
+                    value={homeData.challenges.subtitle || ''}
+                    onChange={(e) => setHomeData({ ...homeData, challenges: { ...homeData.challenges, subtitle: e.target.value } })}
+                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
           </div>
         )}
 
