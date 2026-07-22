@@ -20,11 +20,18 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Routes
+// Routes (support both /api/* and direct /* endpoints on Vercel)
 app.use('/api/health', healthRoutes);
+app.use('/health', healthRoutes);
+
 app.use('/api/contact', contactRoutes);
+app.use('/contact', contactRoutes);
+
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/inquiries', inquiryRoutes);
+
 app.use('/api/cms', cmsRoutes);
+app.use('/cms', cmsRoutes);
 
 // Root route
 app.get('/', (_req, res) => {

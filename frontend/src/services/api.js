@@ -65,20 +65,32 @@ export async function savePageCMS(pageKey, payload) {
 }
 
 export async function loginAdmin(password) {
-  const response = await fetch(`${API_BASE_URL}/cms/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ password }),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/cms/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: (password || '').trim() }),
+    });
 
-  const result = await response.json();
-  if (!response.ok || !result.success) {
-    throw new Error(result.error || 'Invalid admin credentials.');
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error(`Server returned unexpected format (${response.status}). Please try again.`);
+    }
+
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || 'Invalid admin credentials.');
+    }
+
+    return result;
+  } catch (error) {
+    if (error.name === 'TypeError') {
+      throw new Error('Could not connect to backend server. Please check your internet connection.');
+    }
+    throw error;
   }
-
-  return result;
 }
 
 export async function fetchContactSubmissions() {

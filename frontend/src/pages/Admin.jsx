@@ -76,24 +76,28 @@ export default function Admin() {
   }, []);
 
   const loadAllData = async () => {
-    // Load Home Content
-    const cmsHome = await fetchPageCMS('home');
-    if (cmsHome && cmsHome.hero) {
-      setHomeData({
-        hero: cmsHome.hero || homeData.hero,
-        features: cmsHome.cards || homeData.features
-      });
-    }
+    try {
+      // Load Home Content
+      const cmsHome = await fetchPageCMS('home');
+      if (cmsHome && cmsHome.hero) {
+        setHomeData((prev) => ({
+          hero: cmsHome.hero || prev.hero,
+          features: cmsHome.cards || prev.features
+        }));
+      }
 
-    // Load Explorer All Levels Content
-    const cmsExplorer = await fetchPageCMS('explorer_all_levels');
-    if (cmsExplorer && cmsExplorer.sections) {
-      setExplorerSections({ ...explorerSections, ...cmsExplorer.sections });
-    }
+      // Load Explorer All Levels Content
+      const cmsExplorer = await fetchPageCMS('explorer_all_levels');
+      if (cmsExplorer && cmsExplorer.sections) {
+        setExplorerSections((prev) => ({ ...prev, ...cmsExplorer.sections }));
+      }
 
-    // Load Submissions
-    const subs = await fetchContactSubmissions();
-    setSubmissions(subs);
+      // Load Submissions
+      const subs = await fetchContactSubmissions();
+      setSubmissions(subs || []);
+    } catch (err) {
+      console.warn('[Admin] Non-critical error loading page data:', err);
+    }
   };
 
   const handleLogin = async (e) => {

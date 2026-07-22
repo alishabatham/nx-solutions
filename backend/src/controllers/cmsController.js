@@ -3,37 +3,50 @@ import mongoose from 'mongoose';
 import fs from 'fs';
 import path from 'path';
 
-const getFallbackPath = () => path.join(process.cwd(), 'cms_fallback.json');
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const getFallbackPaths = () => [
+  path.join(process.cwd(), 'cms_fallback.json'),
+  path.join(process.cwd(), 'backend', 'cms_fallback.json'),
+  path.resolve(__dirname, '../../cms_fallback.json'),
+  path.resolve(__dirname, '../cms_fallback.json')
+];
 
 const readFallbackData = (pageKey) => {
-  try {
-    const filePath = getFallbackPath();
-    if (fs.existsSync(filePath)) {
-      const fileData = fs.readFileSync(filePath, 'utf8');
-      const json = JSON.parse(fileData);
-      return json[pageKey] || null;
+  for (const filePath of getFallbackPaths()) {
+    try {
+      if (fs.existsSync(filePath)) {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        const json = JSON.parse(fileData);
+        if (json && json[pageKey]) {
+          return json[pageKey];
+        }
+      }
+    } catch (error) {
+      console.error('[CMS Fallback Read Error]:', error);
     }
-  } catch (error) {
-    console.error('[CMS Fallback Read Error]:', error);
   }
   return null;
 };
 
 const writeFallbackData = (pageKey, data) => {
-  try {
-    const filePath = getFallbackPath();
-    let json = {};
-    if (fs.existsSync(filePath)) {
-      const fileData = fs.readFileSync(filePath, 'utf8');
-      json = JSON.parse(fileData);
+  for (const filePath of getFallbackPaths()) {
+    try {
+      let json = {};
+      if (fs.existsSync(filePath)) {
+        const fileData = fs.readFileSync(filePath, 'utf8');
+        json = JSON.parse(fileData);
+      }
+      json[pageKey] = data;
+      fs.writeFileSync(filePath, JSON.stringify(json, null, 2), 'utf8');
+      return true;
+    } catch (error) {
+      console.warn('[CMS Fallback Write Warning]:', error.message);
     }
-    json[pageKey] = data;
-    fs.writeFileSync(filePath, JSON.stringify(json, null, 2), 'utf8');
-    return true;
-  } catch (error) {
-    console.error('[CMS Fallback Write Error]:', error);
-    return false;
   }
+  return false;
 };
 
 export const getPageContent = async (req, res) => {
@@ -124,10 +137,11 @@ export const updatePageContent = async (req, res) => {
 
 export const adminLogin = async (req, res) => {
   try {
-    const { password } = req.body;
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const { password } = req.body || {};
+    const inputPassword = (password || '').trim();
+    const adminPassword = (process.env.ADMIN_PASSWORD || 'admin123').trim();
 
-    if (password === adminPassword) {
+    if (inputPassword && inputPassword === adminPassword) {
       return res.status(200).json({
         success: true,
         token: 'nx_admin_secret_token_valid',
