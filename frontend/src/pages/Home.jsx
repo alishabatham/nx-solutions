@@ -50,97 +50,97 @@ export default function Home() {
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden font-sans">
 
       {/* ── SECTION 01: HERO SECTION ── */}
-      <section className="relative min-h-[90vh] bg-slate-950 text-white pt-32 pb-20 px-4 sm:px-6 flex flex-col justify-center overflow-hidden border-b border-slate-800/60">
+      <section className="relative min-h-[92vh] bg-slate-950 text-white pt-36 pb-20 px-4 sm:px-6 flex flex-col justify-center items-center text-center overflow-hidden border-b border-slate-800/60">
         {/* Tech Grid Background Pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
         
         {/* Glow Accents */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-emerald-500/15 blur-[120px] rounded-full pointer-events-none"></div>
-        <div className="absolute bottom-10 right-10 w-[400px] h-[250px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-emerald-500/15 blur-[140px] rounded-full pointer-events-none"></div>
+        <div className="absolute bottom-10 left-10 w-[350px] h-[200px] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-        <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="container mx-auto max-w-5xl relative z-10 flex flex-col items-center text-center space-y-7">
           {/* Section Tag Badge */}
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-widest mb-6"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[0.7rem] sm:text-xs font-semibold uppercase tracking-widest"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             01 HERO SECTION
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.12] text-white"
-              >
-                Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">Intelligent Solutions</span> for Modern Operations
-              </motion.h1>
+          {/* Main Middle Aligned Headline */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.12] text-white max-w-4xl mx-auto"
+          >
+            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">Intelligent Solutions</span> for Modern Operations
+          </motion.h1>
 
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="text-slate-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl"
-              >
-                {hero.subtitle}
-              </motion.p>
+          {/* Subtitle */}
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-slate-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto"
+          >
+            {hero.subtitle}
+          </motion.p>
 
-              {/* Action Buttons */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="flex flex-wrap items-center gap-4 pt-4"
-              >
-                <Link
-                  href="/industries"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-sm transition-all duration-300 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/40 transform hover:-translate-y-0.5"
-                >
-                  {hero.primaryBtnText || 'Explore Industries'}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+          {/* Action Buttons (Center Aligned) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="flex flex-wrap items-center justify-center gap-4 pt-2"
+          >
+            <Link
+              href="/industries"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition-all duration-300 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/40 transform hover:-translate-y-0.5"
+            >
+              {hero.primaryBtnText || 'Explore Industries'}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
 
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-medium text-sm border border-slate-700 transition-all duration-300 hover:border-slate-500"
-                >
-                  <Calendar className="w-4 h-4 text-emerald-400" />
-                  {hero.secondaryBtnText || 'Schedule Consultation'}
-                </Link>
-              </motion.div>
-            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 transition-all duration-300 hover:border-slate-500 shadow-md"
+            >
+              <Calendar className="w-4 h-4 text-emerald-400" />
+              {hero.secondaryBtnText || 'Schedule Consultation'}
+            </Link>
+          </motion.div>
 
-            {/* Right Multi-Card Visual Grid */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-3.5 relative">
-              {hero.heroImages.slice(0, 4).map((img, i) => (
-                <motion.div
+          {/* Centered Image Grid Showcase Banner */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="w-full pt-8"
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 max-w-5xl mx-auto">
+              {hero.heroImages.map((img, i) => (
+                <div
                   key={i}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.1 * i }}
-                  className={`group relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl ${
-                    i === 0 ? 'col-span-2 h-44 sm:h-52' : 'h-36 sm:h-40'
-                  }`}
+                  className="group relative rounded-2xl overflow-hidden border border-slate-800 shadow-2xl h-36 sm:h-44"
                 >
                   <img 
                     src={img.url} 
                     alt={img.title} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-white tracking-wide">{img.title}</span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"></div>
+                  <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between">
+                    <span className="text-[0.7rem] font-bold text-white tracking-wide truncate">{img.title}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </div>
+          </motion.div>
+
         </div>
       </section>
 
