@@ -81,3 +81,19 @@
 .animate-float-slow {
   animation: floatSlow 5s ease-in-out infinite;
 }
+
+/* Infinite Marquee Animation */
+@keyframes infiniteMarquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: infiniteMarquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

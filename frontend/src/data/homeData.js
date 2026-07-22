@@ -111,82 +111,30 @@ export const solutionsList = [
 ];
 
 export const currentWorkProjects = [
-  {
-    id: 'proj-1',
-    title: 'Smart Campus Security Ecosystem',
-    location: 'Indore, MP',
-    status: 'Active Project',
-    statusBg: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30',
-    image: 'https://images.unsplash.com/photo-1562774053-701939374585?w=600&q=80',
-    desc: 'Integrated facial recognition gate entry, hostel security & automated mustering.'
-  },
-  {
-    id: 'proj-2',
-    title: 'Hospital Operation Intelligence',
-    location: 'Indore, MP',
-    status: 'Under Development',
-    statusBg: 'bg-blue-500/10 text-blue-600 border-blue-500/30',
-    image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&q=80',
-    desc: 'ICU access control, visitor tracking & emergency response integration.'
-  },
-  {
-    id: 'proj-3',
-    title: 'Manufacturing Automation Solutions',
-    location: 'Pithampur, MP',
-    status: 'Active Research',
-    statusBg: 'bg-amber-500/10 text-amber-600 border-amber-500/30',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80',
-    desc: 'Assembly line safety monitoring & ANPR gate automation for heavy machinery.'
-  },
-  {
-    id: 'proj-4',
-    title: 'Corporate Workplace Intelligence',
-    location: 'Indore, MP',
-    status: 'Design Phase',
-    statusBg: 'bg-purple-500/10 text-purple-600 border-purple-500/30',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80',
-    desc: 'Desk occupancy sensors, smart meeting room booking & VIP entry alerts.'
-  },
-  {
-    id: 'proj-5',
-    title: 'Logistics & Warehouse Operations',
-    location: 'Indore, MP',
-    status: 'Prototype',
-    statusBg: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/30',
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80',
-    desc: 'Automated dock door loading verification & perimeter intrusion sensors.'
-  },
-  {
-    id: 'proj-6',
-    title: 'Smart Infrastructure Solutions',
-    location: 'Indore, MP',
-    status: 'Planning',
-    statusBg: 'bg-teal-500/10 text-teal-600 border-teal-500/30',
-    image: 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80',
-    desc: 'Central command dash for municipal streetlights, traffic & public safety.'
-  }
+  { id: 'proj-1', title: 'Smart Cities Mission, Govt. of India', icon: 'Landmark', tag: 'GOVT.', badgeText: 'Smart City' },
+  { id: 'proj-2', title: 'Defence R&D Organisation', icon: 'Shield', tag: 'DEFENCE', badgeText: 'DRDO' },
+  { id: 'proj-3', title: 'Directorate General of Civil Aviation', icon: 'Plane', tag: 'REGULATOR', badgeText: 'DGCA' },
+  { id: 'proj-4', title: 'Atal Incubation Centre — NITI Aayog', icon: 'Rocket', tag: 'INCUBATOR', badgeText: 'AIC' },
+  { id: 'proj-5', title: 'Govt. of India Initiative (DPIIT)', icon: 'Award', tag: 'GOVERNMENT', badgeText: 'DPIIT' },
+  { id: 'proj-6', title: 'National Highways Authority of India', icon: 'Truck', tag: 'CLIENT', badgeText: 'NHAI' },
+  { id: 'proj-7', title: 'IIT Indore Smart Campus Ecosystem', icon: 'GraduationCap', tag: 'INSTITUTION', badgeText: 'IIT' },
+  { id: 'proj-8', title: 'Apex Super Speciality Healthcare', icon: 'Heart', tag: 'HEALTHCARE', badgeText: 'APEX' },
 ];
 
 export const techLogos = [
-  { name: 'Hikvision', category: 'Surveillance' },
-  { name: 'Dahua', category: 'Surveillance' },
-  { name: 'Matrix', category: 'Security & Telecom' },
-  { name: 'Suprema', category: 'Biometrics' },
-  { name: 'Axis', category: 'IP Video' },
-  { name: 'Bosch', category: 'Safety & Security' },
-  { name: 'Honeywell', category: 'Building Tech' },
-  { name: 'CP Plus', category: 'Security' },
-  { name: 'ZKTeco', category: 'Access Control' },
-  { name: 'eSSL', category: 'Attendance' },
-  { name: 'Mantra', category: 'Biometrics' },
-  { name: 'D-Link', category: 'Networking' },
-  { name: 'tp-link', category: 'Networking' },
-  { name: 'Ubiquiti', category: 'Enterprise Network' },
-  { name: 'Microsoft', category: 'Cloud & AI' },
-  { name: 'AWS', category: 'Cloud Services' },
-  { name: 'Google Cloud', category: 'Cloud Infrastructure' },
-  { name: 'ONVIF', category: 'Open Standards' },
-  { name: 'MQTT', category: 'IoT Protocol' },
+  { name: 'Hikvision', logo: 'https://cdn.worldvectorlogo.com/logos/hikvision-1.svg' },
+  { name: 'Dahua', logo: 'https://cdn.worldvectorlogo.com/logos/dahua-technology.svg' },
+  { name: 'Bosch', logo: 'https://cdn.worldvectorlogo.com/logos/bosch-2.svg' },
+  { name: 'Honeywell', logo: 'https://cdn.worldvectorlogo.com/logos/honeywell-1.svg' },
+  { name: 'Axis', logo: 'https://cdn.worldvectorlogo.com/logos/axis-communications.svg' },
+  { name: 'Microsoft', logo: 'https://cdn.worldvectorlogo.com/logos/microsoft-5.svg' },
+  { name: 'AWS', logo: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg' },
+  { name: 'Google Cloud', logo: 'https://cdn.worldvectorlogo.com/logos/google-cloud-1.svg' },
+  { name: 'CP Plus', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/CP_PLUS_logo.svg/512px-CP_PLUS_logo.svg.png' },
+  { name: 'ZKTeco', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/ZKTeco_Logo.svg/512px-ZKTeco_Logo.svg.png' },
+  { name: 'D-Link', logo: 'https://cdn.worldvectorlogo.com/logos/d-link-logo.svg' },
+  { name: 'TP-Link', logo: 'https://cdn.worldvectorlogo.com/logos/tp-link-2.svg' },
+  { name: 'Ubiquiti', logo: 'https://cdn.worldvectorlogo.com/logos/ubiquiti-networks.svg' },
 ];
 
 export const clientTestimonials = [

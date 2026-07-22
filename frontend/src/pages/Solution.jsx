@@ -1,11 +1,7 @@
 import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { PageTransition } from '@/components/ui/ExplorerCard';
-import {
-  CheckCircle2, Search, Cpu, BrainCircuit, Activity,
-  ShieldCheck, LayoutDashboard, FileBarChart, TrendingUp,
-  Settings, Layers, PhoneCall, ArrowRight, ShieldAlert
-} from 'lucide-react';
+import { ArrowRight, PhoneCall, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 import img1 from '@/assets/generated_images/sec_1.jpg';
 import img2 from '@/assets/generated_images/sec_2.jpg';
@@ -14,244 +10,164 @@ import img4 from '@/assets/generated_images/sec_4.jpg';
 import img5 from '@/assets/generated_images/sec_5.jpg';
 import img6 from '@/assets/generated_images/sec_6.jpg';
 
-const steps = [
-  { 
-    id: 1, 
-    phase: 'PHASE 01 · PROBLEM IDENTIFICATION',
-    title: 'Security Vulnerabilities & Breaches', 
-    description: 'Unauthorized access and tailgating in restricted zones compromise operational security and safety protocols.', 
-    icon: ShieldCheck, 
-    image: img1 
+const solutionsData = [
+  {
+    id: 'campus-security',
+    title: 'Enhanced campus security with eliminated security risks',
+    description: 'NX Solution offers comprehensive on- and off-campus security solutions covering school buses, gates, perimeters, buildings, and internal roads, with a wealth of security applications for vehicle, personnel, and alarm management. NX can ensure students, parents, and administrators enjoy a secured and serene learning environment.',
+    linkText: 'Campus Security Solution',
+    image: img1,
   },
-  { 
-    id: 2, 
-    phase: 'PHASE 01 · PROBLEM IDENTIFICATION',
-    title: 'Current Manual Processes', 
-    description: 'Manual logbooks, physical ID checks, and standalone RFID cards that can be shared or stolen, leading to inaccurate audit trails.', 
-    icon: Search, 
-    image: img2 
+  {
+    id: 'attendance-efficiency',
+    title: 'Flexible attendance solutions with enhanced efficiency',
+    description: "NX Solution's student and staff attendance solution satisfies common participation needs on campus with access control terminals and intelligent attendance devices. Efficient and automatic data recording adds to management efficiency of teachers and school administrators.",
+    linkText: 'Students Attendance Solutions',
+    image: img2,
   },
-  { 
-    id: 3, 
-    phase: 'PHASE 01 · PROBLEM IDENTIFICATION',
-    title: 'Operational Challenges', 
-    description: 'High reliance on human vigilance, delayed response to breaches, inability to track real-time occupancy, and high administrative overhead.', 
-    icon: Activity, 
-    image: img4 
+  {
+    id: 'anpr-gate-access',
+    title: 'Automated ANPR vehicle gate access & traffic control',
+    description: 'Streamline entry gates with automatic number plate recognition (ANPR), barrier control, and automated visitor pass verification for vehicles entering industrial plants, educational campuses, or corporate parks.',
+    linkText: 'Vehicle & Gate Access Solutions',
+    image: img3,
   },
-  { 
-    id: 4, 
-    phase: 'PHASE 02 · AI SOLUTION ARCHITECTURE',
-    title: 'NX AI Core Solution', 
-    description: 'A centralized, AI-driven authentication platform utilizing facial recognition, anti-spoofing, and behavioral analytics at edge endpoints.', 
-    icon: BrainCircuit, 
-    image: img3 
+  {
+    id: 'ai-perimeter-vision',
+    title: 'AI-driven perimeter vision & intrusion detection',
+    description: 'Continuous 24/7 CCTV surveillance analytics with real-time liveness detection, virtual boundary crossing alerts, and instant incident escalation to central command centers.',
+    linkText: 'Perimeter & AI Vision Solutions',
+    image: img4,
   },
-  { 
-    id: 5, 
-    phase: 'PHASE 02 · AI SOLUTION ARCHITECTURE',
-    title: 'Required Vision Hardware', 
-    description: 'NX Vision Edge Terminals, AI-powered IP Cameras with Liveness Detection, and Automated Smart Turnstiles integrated directly with the network.', 
-    icon: Cpu, 
-    image: img1 
+  {
+    id: 'smart-workspace',
+    title: 'Smart building & occupancy utilization analytics',
+    description: 'Optimize space utilization, room booking, and facility energy consumption using IoT spatial sensors, occupancy counters, and unified dashboard orchestration for corporate offices.',
+    linkText: 'Smart Workspace Solutions',
+    image: img5,
   },
-  { 
-    id: 6, 
-    phase: 'PHASE 02 · AI SOLUTION ARCHITECTURE',
-    title: 'NX Enterprise Software', 
-    description: 'NX Core Security Platform — a unified orchestration layer managing identities, access policies, schedules, and device health centrally.', 
-    icon: Layers, 
-    image: img5 
-  },
-  { 
-    id: 7, 
-    phase: 'PHASE 03 · AUTOMATION & DASHBOARD',
-    title: 'Real-Time AI Automation', 
-    description: 'Automated alert generation for tailgating attempts, blacklisted faces, and forced entry, pushing real-time commands to lock down specific zones.', 
-    icon: Settings, 
-    image: img4 
-  },
-  { 
-    id: 8, 
-    phase: 'PHASE 03 · AUTOMATION & DASHBOARD',
-    title: 'Live Management Dashboard', 
-    description: 'Live spatial mapping, real-time footfall counters, active alerts queue, and instant terminal status streams in a single pane of glass.', 
-    icon: LayoutDashboard, 
-    image: img2 
-  },
-  { 
-    id: 9, 
-    phase: 'PHASE 03 · AUTOMATION & DASHBOARD',
-    title: 'Audit & Compliance Reports', 
-    description: 'Automated compliance reports, attendance logs, anomaly frequency charts, and department-wise access analytics exported to your ERP.', 
-    icon: FileBarChart, 
-    image: img5 
-  },
-  { 
-    id: 10, 
-    phase: 'PHASE 04 · IMPACT & RETURN ON INVESTMENT',
-    title: 'Core Platform Benefits', 
-    description: 'Zero physical contact, unbreakable identity verification, 100% accurate audit trails, and drastically reduced manual security costs.', 
-    icon: CheckCircle2, 
-    image: img6 
-  },
-  { 
-    id: 11, 
-    phase: 'PHASE 04 · IMPACT & RETURN ON INVESTMENT',
-    title: 'Measurable Financial ROI', 
-    description: 'Achieve payback within 8 months through elimination of manual guards at internal checkpoints and reduction of card replacement costs.', 
-    icon: TrendingUp, 
-    image: img3 
-  },
-  { 
-    id: 12, 
-    phase: 'PHASE 04 · IMPACT & RETURN ON INVESTMENT',
-    title: 'Connected Security Modules', 
-    description: 'Our platform simultaneously resolves Visitor Mismanagement, Contractor Overstays, and Emergency Evacuation Mustering.', 
-    icon: ShieldAlert, 
-    image: img1 
+  {
+    id: 'command-center',
+    title: 'Centralized operations command & emergency mustering',
+    description: 'Single-pane-of-glass dashboard providing live headcount tracking, emergency evacuation Mustering, visitor audit logs, and direct ERP system integrations.',
+    linkText: 'Central Operations Solutions',
+    image: img6,
   },
 ];
 
 export default function Solution() {
   return (
     <motion.main
-      className="w-full bg-[#f7f8fa] min-h-screen pt-32 pb-24 overflow-hidden text-slate-900"
+      className="w-full bg-[#f8fafc] min-h-screen pt-28 pb-24 text-slate-900 font-sans"
       initial="initial"
       animate="animate"
       exit="exit"
       variants={PageTransition}
     >
       {/* ── Page Header ── */}
-      <div className="bg-white border-b border-slate-100 px-6 py-16 text-center relative overflow-hidden">
-        <div className="relative z-10 container mx-auto max-w-3xl">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium tracking-wide uppercase mb-4">
-            Platform Architecture
-          </span>
-          <h1 className="text-3xl md:text-4xl font-semibold text-slate-900 mb-4 tracking-tight">
-            AI Access Control Transformation
+      <section className="bg-white border-b border-slate-200/80 px-6 py-16 text-center relative overflow-hidden">
+        <div className="container mx-auto max-w-4xl relative z-10 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest">
+            <span className="w-2 h-2 rounded-full bg-slate-800"></span>
+            ENTERPRISE SOLUTIONS SUITE
+          </div>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Tailored AI & Automation Solutions
           </h1>
-          <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
-            End-to-end intelligent security deployment — from identifying operational bottlenecks to achieving complete automation and clear financial ROI.
+          <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
+            End-to-end intelligent security blueprints designed for complex operational environments, from campus security to automated gate controls.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="container mx-auto max-w-5xl px-4 md:px-6 py-16">
-        {/* Timeline Container */}
-        <div className="relative">
-          {/* Vertical central guide line */}
-          <div className="hidden md:block absolute left-1/2 top-4 bottom-4 w-0.5 bg-slate-200 -translate-x-1/2" />
+      {/* ── Alternating Split Layout Rows ── */}
+      <section className="py-16 md:py-24 px-4 sm:px-6">
+        <div className="container mx-auto max-w-7xl space-y-20 md:space-y-28">
+          {solutionsData.map((item, index) => {
+            const isFlipped = index % 2 === 1;
 
-          <div className="space-y-12 md:space-y-16">
-            {steps.map((step, index) => {
-              const isEven = index % 2 === 1;
-              const Icon = step.icon;
-
-              return (
-                <motion.div
-                  key={step.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-60px' }}
-                  transition={{ duration: 0.45 }}
-                  className={`flex flex-col md:flex-row items-stretch gap-8 md:gap-14 relative ${
-                    isEven ? 'md:flex-row-reverse' : ''
-                  }`}
-                >
-                  {/* Step Bubble Node */}
-                  <div className="hidden md:flex absolute left-1/2 top-8 -translate-x-1/2 z-20">
-                    <div className="w-10 h-10 rounded-full bg-slate-900 text-white font-medium text-xs flex items-center justify-center ring-4 ring-[#f7f8fa] shadow-sm">
-                      {step.id}
-                    </div>
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className={`grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-14 items-center ${
+                  isFlipped ? 'lg:flex-row-reverse' : ''
+                }`}
+              >
+                {/* Image Column */}
+                <div className={`lg:col-span-6 ${isFlipped ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div className="w-full h-[260px] sm:h-[340px] md:h-[380px] rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm relative group bg-slate-900">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-slate-950/10 group-hover:bg-transparent transition-colors" />
                   </div>
+                </div>
 
-                  {/* Card Content */}
-                  <div className="flex-1 w-full flex flex-col justify-center">
-                    <div className="bg-white rounded-[28px] p-7 md:p-8 soft-card-shadow border border-slate-100/80">
-                      {/* Phase Badge */}
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-[0.65rem] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">
-                          {step.phase}
-                        </span>
-                      </div>
+                {/* Content Column */}
+                <div className={`lg:col-span-6 space-y-5 text-left ${isFlipped ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-snug">
+                    {item.title}
+                  </h2>
 
-                      {/* Header with Icon and Title */}
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-9 h-9 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0 text-blue-600">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <h3 className="text-xl font-semibold text-slate-900 tracking-tight">
-                          {step.title}
-                        </h3>
-                      </div>
+                  <p className="text-slate-600 text-sm sm:text-base font-normal leading-relaxed">
+                    {item.description}
+                  </p>
 
-                      {/* Description */}
-                      <p className="text-slate-500 text-sm leading-relaxed font-normal">
-                        {step.description}
-                      </p>
-                    </div>
+                  <div className="pt-2">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold text-sm sm:text-base group transition-colors cursor-pointer"
+                    >
+                      <span>{item.linkText}</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
-
-                  {/* Image Graphic */}
-                  <div className="flex-1 w-full flex items-center">
-                    <div className="w-full aspect-[16/10] rounded-[28px] overflow-hidden border border-slate-100 shadow-sm relative group bg-slate-900">
-                      <img
-                        src={step.image}
-                        alt={step.title}
-                        className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-5 flex justify-between items-center text-xs text-white/90">
-                        <span className="font-medium">{step.title}</span>
-                        <span className="text-[0.65rem] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full font-mono">STEP {step.id}</span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
+      </section>
 
-        {/* ── Standalone Final CTA ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mt-20 rounded-[32px] bg-slate-900 px-8 py-14 md:p-16 text-center text-white overflow-hidden relative shadow-xl"
-        >
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs font-medium tracking-widest uppercase mb-6">
+      {/* ── Standalone Final CTA Banner ── */}
+      <section className="px-4 sm:px-6 container mx-auto max-w-7xl">
+        <div className="rounded-[36px] bg-slate-950 px-8 py-14 md:p-16 text-center text-white overflow-hidden relative shadow-2xl border border-slate-800">
+          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-widest uppercase">
               Deployment Consultation
             </span>
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4 tracking-tight leading-tight">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
               Ready to automate your facility?
             </h2>
-            <p className="text-slate-400 text-base max-w-xl mx-auto leading-relaxed mb-8 font-normal">
+            <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
               Connect with our solutions engineering team to build a tailored AI security architecture and calculate your exact return on investment.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-white hover:bg-slate-100 text-slate-900 font-semibold text-sm transition-all shadow-md"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer"
               >
-                <PhoneCall className="w-4 h-4" />
+                <PhoneCall className="w-4.5 h-4.5" />
                 Book Consultation
               </Link>
               <Link
                 href="/industries"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full border border-white/20 hover:border-white text-white font-medium text-sm transition-all hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer"
               >
                 Browse All Industries
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4.5 h-4.5" />
               </Link>
             </div>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
     </motion.main>
   );
 }

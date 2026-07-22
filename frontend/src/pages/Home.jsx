@@ -3,12 +3,13 @@ import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, Calendar, Sparkles, Target, Eye, Lightbulb, CheckCircle2, AlertTriangle, 
-  ChevronRight, ArrowUpRight, GraduationCap, Activity, Factory, Briefcase, ShoppingCart, 
+  ChevronRight, ArrowUpRight, GraduationCap, Heart, Activity, Factory, Briefcase, ShoppingCart, 
   Truck, Home as HomeIcon, Layers, Landmark, Building, Glasses, Search, BarChart2, 
   PenTool, Cpu, Rocket, RefreshCw, Shield, Users, Lock, Camera, CheckSquare, Building2, 
-  Zap, Monitor, MapPin, Laptop, ChevronLeft, Check, RefreshCcw, BarChart
+  Zap, Monitor, MapPin, Laptop, ChevronLeft, Check, RefreshCcw, BarChart, Award, Plane
 } from 'lucide-react';
 import { fetchPageCMS } from '@/services/api';
+import { ExplorerCard } from '@/components/ui/ExplorerCard';
 import {
   defaultHero, aboutSection, challengesToSolutions, industriesList, processSteps, 
   solutionsList, currentWorkProjects, techLogos, clientTestimonials
@@ -25,25 +26,37 @@ export default function Home() {
 
   useEffect(() => {
     async function loadCMS() {
-      const cms = await fetchPageCMS('home');
-      if (cms) {
-        if (cms.hero) setHero((prev) => ({ ...prev, ...cms.hero }));
-        if (cms.about) setAbout((prev) => ({ ...prev, ...cms.about }));
-        if (cms.challenges) setChallenges((prev) => ({ ...prev, ...cms.challenges }));
-        if (cms.solutions && cms.solutions.length > 0) setSolutions(cms.solutions);
-        if (cms.projects && cms.projects.length > 0) setProjects(cms.projects);
-        if (cms.testimonials && cms.testimonials.length > 0) setTestimonials(cms.testimonials);
+      try {
+        const cms = await fetchPageCMS('home');
+        if (cms) {
+          if (cms.hero && typeof cms.hero === 'object') setHero((prev) => ({ ...prev, ...cms.hero }));
+          if (cms.about && typeof cms.about === 'object') setAbout((prev) => ({ ...prev, ...cms.about }));
+          if (cms.challenges && typeof cms.challenges === 'object') setChallenges((prev) => ({ ...prev, ...cms.challenges }));
+          if (Array.isArray(cms.solutions) && cms.solutions.length > 0) setSolutions(cms.solutions);
+          if (Array.isArray(cms.projects) && cms.projects.length > 0) {
+            const safeProjects = cms.projects.map((p, idx) => ({
+              ...currentWorkProjects[idx % currentWorkProjects.length],
+              ...p,
+              icon: p.icon || currentWorkProjects[idx % currentWorkProjects.length]?.icon || 'Building2',
+              title: p.title || p.name || 'Live Project'
+            }));
+            setProjects(safeProjects);
+          }
+          if (Array.isArray(cms.testimonials) && cms.testimonials.length > 0) setTestimonials(cms.testimonials);
+        }
+      } catch (err) {
+        console.warn('[CMS Error]:', err);
       }
     }
     loadCMS();
   }, []);
 
-  const getIndustryIcon = (iconName) => {
-    const icons = {
-      GraduationCap, Activity, Factory, Briefcase, ShoppingCart, Truck, Home: HomeIcon, Layers, Landmark, Building
-    };
-    const Component = icons[iconName] || Building;
-    return <Component className="w-5 h-5 text-emerald-600" />;
+  const scrollContainer = (id, direction) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const scrollAmount = direction === 'left' ? -360 : 360;
+      el.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
   };
 
   const getSolutionIcon = (iconName) => {
@@ -65,7 +78,7 @@ export default function Home() {
 
         <div className="w-full max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
-          {/* Left Wing Images (Hidden on small mobile, visible on tablet/desktop) */}
+          {/* Left Wing Images */}
           <div className="hidden sm:grid lg:col-span-3 grid-cols-2 lg:grid-cols-1 gap-3">
             <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
               <img 
@@ -139,7 +152,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Right Wing Images (Hidden on small mobile, visible on tablet/desktop) */}
+          {/* Right Wing Images */}
           <div className="hidden sm:grid lg:col-span-3 grid-cols-2 lg:grid-cols-1 gap-3">
             <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
               <img 
@@ -151,16 +164,16 @@ export default function Home() {
             </div>
             <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
               <img 
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" 
-                alt="Control Room Monitoring" 
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&q=80" 
+                alt="IT & Corporate" 
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
               />
               <div className="absolute inset-0 bg-slate-950/40"></div>
             </div>
             <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group col-span-2 lg:col-span-1">
               <img 
-                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80" 
-                alt="Smart Fleet & Transport" 
+                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80" 
+                alt="Healthcare & Hospitals" 
                 className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
               />
               <div className="absolute inset-0 bg-slate-950/40"></div>
@@ -174,211 +187,122 @@ export default function Home() {
       {/* ── SECTION 02: ABOUT NX SOLUTION ── */}
       <section className="py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80">
         <div className="container mx-auto max-w-7xl">
-          {/* Section Tag */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-xs font-semibold uppercase tracking-widest mb-6">
-            <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-            ABOUT NX SOLUTION
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left: About Text Copy */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest">
+                <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+                ABOUT NX SOLUTION
+              </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-14">
-            {/* Left Copy */}
-            <div className="lg:col-span-7 space-y-5">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-snug">
                 {about.title}
               </h2>
-              <p className="text-slate-600 text-base leading-relaxed font-normal">
-                {about.description1}
-              </p>
-              <p className="text-slate-600 text-base leading-relaxed font-normal">
-                {about.description2}
-              </p>
-              <p className="text-slate-600 text-base leading-relaxed font-normal">
-                {about.description3}
-              </p>
-            </div>
 
-            {/* Right Office Photo */}
-            <div className="lg:col-span-5 relative">
-              <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-xl relative">
-                <img 
-                  src={about.teamImage} 
-                  alt="NX Solution Engineering Team" 
-                  className="w-full h-80 object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-100 shadow-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold">
-                      NX
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900">NX Solution Engineering</h4>
-                      <p className="text-[0.7rem] text-slate-500">AI & IoT Infrastructure Specialists</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="space-y-4 text-slate-600 text-sm sm:text-base font-normal leading-relaxed">
+                <p>{about.description1}</p>
+                <p>{about.description2}</p>
+                {about.description3 && <p>{about.description3}</p>}
+              </div>
+
+              <div className="pt-2 flex items-center gap-4">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-emerald-600 text-white font-semibold text-xs sm:text-sm transition-all shadow-md cursor-pointer"
+                >
+                  Learn More About Us
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
-          </div>
 
-          {/* 3 Pillars Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {aboutSection.pillars.map((item) => {
-              const icons = { Target, Eye, Lightbulb };
-              const IconComp = icons[item.icon] || Target;
-              return (
-                <div 
-                  key={item.id}
-                  className="bg-[#f8fafc] rounded-2xl p-7 border border-slate-200/80 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-md group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                    <IconComp className="w-6 h-6" />
+            {/* Right: Feature Highlights Grid */}
+            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: 'AI-Powered Diagnostics', text: 'Real-time analysis of operational streams to identify potential risks early.', icon: Target },
+                { title: 'Personalized Access Plans', text: 'Tailored risk profiles and access rules for every role in your organization.', icon: Shield },
+                { title: 'Cutting-Edge Automation', text: 'Automated entry gates, Mustering counts, and sensor monitoring.', icon: Cpu },
+                { title: 'Real-Time Spatial Insights', text: 'Deep analytics across facility logs for complete visibility.', icon: Eye },
+              ].map((item, idx) => {
+                const IconComp = item.icon;
+                return (
+                  <div 
+                    key={idx}
+                    className="bg-[#f8fafc] rounded-2xl p-5 border border-slate-200/80 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-md group"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                      <IconComp className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-xs font-bold text-slate-900 tracking-wider uppercase mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-[0.75rem] text-slate-500 leading-relaxed font-normal">
+                      {item.text}
+                    </p>
                   </div>
-                  <h3 className="text-sm font-bold text-slate-900 tracking-wider uppercase mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {item.text}
-                  </p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
           </div>
         </div>
       </section>
 
 
-      {/* ── SECTION 03: FROM CHALLENGES TO SOLUTIONS ── */}
+      {/* ── SECTION 03: INDUSTRIES WE SERVE (Inner Card Style in Horizontal Slider) ── */}
       <section className="py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
         <div className="container mx-auto max-w-7xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/80 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-4">
-            <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-            FROM CHALLENGES TO SOLUTIONS
-          </div>
-          
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-2">
-            {challenges.title}
-          </h2>
-          <p className="text-slate-500 text-sm sm:text-base max-w-2xl mb-12">
-            {challenges.subtitle}
-          </p>
-
-          {/* 3 Column Process Diagram */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            
-            {/* Column 1: OPERATIONAL CHALLENGES */}
-            <div className="bg-white rounded-3xl p-7 border border-rose-100 shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b border-rose-100 pb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-rose-600 flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4" /> OPERATIONAL CHALLENGES
-                </h3>
-                <span className="text-[0.65rem] font-semibold bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full">Pain Points</span>
-              </div>
-              <ul className="space-y-3">
-                {challenges.challenges.map((c, i) => (
-                  <li key={i} className="flex items-center gap-3 p-3 rounded-xl bg-rose-50/50 text-xs sm:text-sm font-medium text-slate-700">
-                    <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column 2: OUR ENGINEERING APPROACH */}
-            <div className="bg-white rounded-3xl p-7 border border-blue-100 shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b border-blue-100 pb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-2">
-                  <PenTool className="w-4 h-4" /> OUR ENGINEERING APPROACH
-                </h3>
-                <span className="text-[0.65rem] font-semibold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-full">6 Steps</span>
-              </div>
-              <div className="space-y-3">
-                {challenges.approach.map((step) => (
-                  <div key={step.step} className="flex items-center gap-3 p-3 rounded-xl bg-blue-50/50 border border-blue-100/60">
-                    <span className="w-7 h-7 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
-                      {step.step}
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900">{step.title}</h4>
-                      <p className="text-[0.7rem] text-slate-500">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Column 3: INTELLIGENT OUTCOMES */}
-            <div className="bg-white rounded-3xl p-7 border border-emerald-100 shadow-sm space-y-4">
-              <div className="flex items-center justify-between border-b border-emerald-100 pb-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> INTELLIGENT OUTCOMES
-                </h3>
-                <span className="text-[0.65rem] font-semibold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full">Results</span>
-              </div>
-              <ul className="space-y-3">
-                {challenges.outcomes.map((o, i) => (
-                  <li key={i} className="flex items-center gap-3 p-3 rounded-xl bg-emerald-50/50 text-xs sm:text-sm font-medium text-slate-800">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                    {o}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-
-      {/* ── SECTION 04: INDUSTRIES WE SERVE ── */}
-      <section className="py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4 border-b border-slate-100 pb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 border-b border-slate-200 pb-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
-                <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
+                <span className="w-2 h-2 rounded-full bg-slate-800"></span>
                 INDUSTRIES WE SERVE
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
                 Tailored AI & IoT Solutions across Verticals
               </h2>
             </div>
-            <Link
-              href="/industries"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 hover:bg-emerald-600 text-white text-xs font-semibold transition-all shadow-sm shrink-0"
-            >
-              Explore All Industries
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => scrollContainer('industry-slider', 'left')}
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => scrollContainer('industry-slider', 'right')}
+                className="w-10 h-10 rounded-full border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-2xs"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+              <Link
+                href="/industries"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 hover:bg-emerald-600 text-white text-xs font-semibold transition-all shadow-sm shrink-0 ml-2"
+              >
+                Explore All
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
 
-          {/* Industry Cards Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+          {/* Horizontal Slider for Inner ExplorerCard items */}
+          <div 
+            id="industry-slider"
+            className="flex items-center gap-5 overflow-x-auto no-scrollbar scroll-smooth pb-4 pt-2 -mx-4 px-4"
+          >
             {industriesList.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setLocation(`/industries/${item.id}`)}
-                className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col justify-between"
-              >
-                <div className="h-28 overflow-hidden relative">
-                  <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 to-transparent"></div>
-                  <div className="absolute bottom-2 left-2 w-8 h-8 rounded-lg bg-white/90 backdrop-blur-md flex items-center justify-center shadow-md">
-                    {getIndustryIcon(item.icon)}
-                  </div>
-                </div>
-                <div className="p-3.5 text-left">
-                  <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                    {item.name}
-                  </h3>
-                  <p className="text-[0.68rem] text-slate-500 mt-0.5 line-clamp-1 font-normal">
-                    {item.subtitle}
-                  </p>
-                </div>
+              <div key={item.id} className="min-w-[260px] sm:min-w-[290px] shrink-0">
+                <ExplorerCard
+                  id={item.id}
+                  title={item.name}
+                  subtitle={item.subtitle}
+                  icon={item.icon}
+                  onClick={() => setLocation(`/industries/${item.id}`)}
+                />
               </div>
             ))}
           </div>
@@ -386,8 +310,8 @@ export default function Home() {
       </section>
 
 
-      {/* ── SECTION 05: OUR SOLUTION ENGINEERING PROCESS ── */}
-      <section className="py-20 px-4 sm:px-6 bg-[#fdfbfd] border-b border-slate-200/60 font-sans">
+      {/* ── SECTION 04: OUR SOLUTION ENGINEERING PROCESS ── */}
+      <section className="py-20 px-4 sm:px-6 bg-white border-b border-slate-200/60 font-sans">
         <div className="container mx-auto max-w-7xl space-y-10">
           
           {/* Header */}
@@ -408,13 +332,13 @@ export default function Home() {
           {/* Stepper Connector Line + Step Circles Container */}
           <div className="relative pt-6 pb-2 hidden lg:block">
             {/* Horizontal Line behind circles */}
-            <div className="absolute top-[calc(1.5rem+6px)] left-[3.5%] right-[3.5%] h-[2px] bg-slate-200 -z-0"></div>
+            <div className="absolute top-[calc(1.5rem+6px)] left-[3.5%] right-[3.5%] h-[1px] bg-slate-200 -z-0"></div>
 
             {/* Row of 7 Step Number Circles */}
             <div className="grid grid-cols-7 gap-4 relative z-10 text-center">
               {processSteps.map((step) => (
                 <div key={step.step} className="flex justify-center items-center">
-                  <div className="w-9 h-9 rounded-full bg-white border-2 border-slate-300 text-slate-600 font-semibold text-xs flex items-center justify-center shadow-2xs ring-4 ring-[#fdfbfd]">
+                  <div className="w-8 h-8 rounded-full bg-white border border-slate-300 text-slate-500 font-semibold text-xs flex items-center justify-center shadow-2xs ring-4 ring-white">
                     {step.step}
                   </div>
                 </div>
@@ -422,29 +346,30 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 7 Clean White Cards */}
+          {/* 7 Clean White Cards Matching Image */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 text-left">
             {processSteps.map((step, idx) => {
-              const icons = { Glasses, Search, BarChart2, PenTool, Cpu, Rocket, RefreshCcw };
+              const icons = { Glasses, Search, BarChart, PenTool, Cpu, Rocket, RefreshCcw };
               const IconComp = icons[step.icon] || CheckCircle2;
               return (
                 <div 
                   key={step.step}
-                  className="group bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 min-h-[190px]"
+                  className="group bg-white rounded-[24px] p-6 border border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-6 min-h-[210px]"
                 >
-                  {/* Linear Icon */}
-                  <div className="text-slate-700 group-hover:text-slate-950 transition-colors">
+                  {/* Linear Icon at Top */}
+                  <div className="text-slate-800 group-hover:text-slate-950 transition-colors">
                     <IconComp className="w-6 h-6 stroke-[1.75]" />
                   </div>
 
-                  <div className="space-y-1">
-                    <span className="text-[0.65rem] font-semibold uppercase tracking-widest text-slate-400 block">
+                  {/* STEP Label + Heading + Subtitle at Bottom */}
+                  <div className="space-y-1.5">
+                    <span className="text-[0.62rem] font-semibold uppercase tracking-wider text-slate-400 block">
                       STEP {idx + 1}
                     </span>
-                    <h3 className="text-xs font-bold text-slate-900 tracking-tight leading-snug group-hover:text-slate-950 transition-colors">
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 tracking-tight leading-snug group-hover:text-slate-950 transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-[0.68rem] text-slate-500 font-normal leading-normal line-clamp-2">
+                    <p className="text-[0.68rem] text-slate-500 font-normal leading-normal">
                       {step.desc}
                     </p>
                   </div>
@@ -457,97 +382,118 @@ export default function Home() {
       </section>
 
 
-      {/* ── SECTION 06: OUR SOLUTIONS ── */}
+      {/* ── SECTION 05: OUR CURRENT WORKS (Automatic Infinite Marquee with Icons & Institution Names) ── */}
+      <section className="py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80 overflow-hidden">
+        <div className="container mx-auto max-w-7xl mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200 pb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                OUR CURRENT WORK
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+                Live Deployments
+              </h2>
+            </div>
+            <p className="text-slate-500 text-xs sm:text-sm max-w-xs font-normal">
+              Trusted by leading institutions, hospitals, and enterprise facilities.
+            </p>
+          </div>
+        </div>
+
+        {/* Automatic Infinite Marquee Slider with Framer Motion */}
+        <div className="relative w-full overflow-hidden py-4 flex">
+          <motion.div 
+            className="flex gap-5 shrink-0"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: 'loop',
+                duration: 28,
+                ease: 'linear',
+              },
+            }}
+          >
+            {[...projects, ...projects, ...projects, ...projects].map((proj, idx) => {
+              const icons = { GraduationCap, Heart, Factory, Building2, Truck, Landmark, Briefcase, Shield, Rocket, Award, Plane };
+              const IconComponent = icons[proj.icon] || Building2;
+              return (
+                <div 
+                  key={`${proj.id || idx}-${idx}`}
+                  className="bg-white rounded-[24px] border border-slate-200/90 soft-card-shadow p-6 text-center flex flex-col items-center justify-between min-h-[195px] w-[210px] shrink-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default"
+                >
+                  {/* Top Centered Badge / Icon Box */}
+                  <div className="w-14 h-14 rounded-2xl bg-slate-950 text-white flex items-center justify-center mb-3 shadow-sm shrink-0 border border-slate-800">
+                    {proj.badgeText ? (
+                      <span className="font-extrabold text-[0.7rem] tracking-tight uppercase text-emerald-400 leading-none">
+                        {proj.badgeText}
+                      </span>
+                    ) : (
+                      <IconComponent className="w-6 h-6 stroke-[2] text-emerald-400" />
+                    )}
+                  </div>
+
+                  {/* Centered Institution Name */}
+                  <h3 className="text-[0.78rem] font-bold text-slate-800 tracking-tight leading-snug line-clamp-3 my-auto max-w-[170px]">
+                    {proj.title}
+                  </h3>
+
+              
+                </div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </section>
+
+
+      {/* ── SECTION 06: OUR SOLUTIONS (Enterprise Solution Suite) ── */}
       <section className="py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
-              <span className="w-2 h-2 rounded-full bg-slate-700"></span>
+        <div className="container mx-auto max-w-7xl space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest">
+              <span className="w-2 h-2 rounded-full bg-slate-800"></span>
               OUR SOLUTIONS
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
               Enterprise Solution Suite
             </h2>
+            <p className="text-slate-500 text-xs sm:text-sm leading-relaxed font-normal">
+              Integrated AI & IoT modules engineered for physical security, visitor access, and operational automation.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {solutions.map((sol) => (
               <div 
                 key={sol.id}
-                className="bg-[#f8fafc] rounded-2xl p-6 border border-slate-200 hover:border-emerald-500/50 hover:bg-white hover:shadow-md transition-all duration-300 group"
+                onClick={() => setLocation('/solution')}
+                className="bg-white rounded-[28px] p-7 md:p-8 border border-slate-200/90 soft-card-shadow hover:shadow-2xl hover:border-emerald-500/50 hover:-translate-y-1.5 transition-all duration-300 relative group overflow-hidden flex flex-col justify-between space-y-6 cursor-pointer"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:scale-105 transition-transform">
+                {/* Glowing Top Bar on Hover */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                {/* Top Header Row */}
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-2xs">
                     {getSolutionIcon(sol.icon)}
                   </div>
-                  <span className="text-[0.65rem] font-semibold uppercase tracking-wider text-slate-400 bg-white px-2.5 py-1 rounded-full border border-slate-200">
+                  <span className="text-[0.62rem] font-extrabold uppercase tracking-widest text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200/60 group-hover:bg-emerald-50 group-hover:text-emerald-700 group-hover:border-emerald-200 transition-colors">
                     {sol.subtitle}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 mb-1 group-hover:text-emerald-600 transition-colors">
-                  {sol.name}
-                </h3>
-                <p className="text-xs text-slate-500 font-normal leading-relaxed">
-                  {sol.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-
-      {/* ── SECTION 07: OUR CURRENT WORK ── */}
-      <section className="py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4 border-b border-slate-200 pb-6">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
-                <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-                OUR CURRENT WORK
-              </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-                Live Projects & Deployments
-              </h2>
-            </div>
-            <Link
-              href="/industries"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-slate-300 hover:bg-slate-900 hover:text-white text-slate-700 text-xs font-semibold transition-all shrink-0"
-            >
-              Explore All Projects
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((proj) => (
-              <div 
-                key={proj.id}
-                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all group flex flex-col justify-between"
-              >
-                <div className="h-44 overflow-hidden relative">
-                  <img 
-                    src={proj.image} 
-                    alt={proj.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className={`text-[0.65rem] font-bold px-3 py-1 rounded-full border backdrop-blur-md ${proj.statusBg || 'bg-emerald-500/80 text-white'}`}>
-                      {proj.status}
-                    </span>
+                {/* Title & Description */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-extrabold text-slate-900 tracking-tight group-hover:text-emerald-600 transition-colors">
+                      {sol.name}
+                    </h3>
+                    <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                   </div>
-                  <div className="absolute bottom-3 right-3 bg-slate-950/80 text-white text-[0.65rem] px-2.5 py-1 rounded-md flex items-center gap-1 font-medium">
-                    <MapPin className="w-3 h-3 text-emerald-400" />
-                    {proj.location}
-                  </div>
-                </div>
-
-                <div className="p-5 text-left space-y-2">
-                  <h3 className="text-sm font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                    {proj.title}
-                  </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed font-normal">
-                    {proj.desc}
+                  <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed">
+                    {sol.desc}
                   </p>
                 </div>
               </div>
@@ -557,42 +503,69 @@ export default function Home() {
       </section>
 
 
-      {/* ── SECTION 08: TECHNOLOGY ECOSYSTEM ── */}
-      <section className="py-16 px-4 sm:px-6 bg-white border-b border-slate-200/80">
-        <div className="container mx-auto max-w-7xl text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
-            <span className="w-2 h-2 rounded-full bg-slate-700"></span>
-            TECHNOLOGY ECOSYSTEM
+      {/* ── SECTION 07: HARDWARE WE USE & TECHNOLOGY ECOSYSTEM (Automatic Marquee Slider - Only Logos) ── */}
+      <section className="py-16 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80 overflow-hidden">
+        <div className="container mx-auto max-w-7xl text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            HARDWARE WE USE & ECOSYSTEM
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
             Seamless Hardware & Cloud Compatibility
           </h2>
-          <p className="text-slate-500 text-xs sm:text-sm max-w-2xl mx-auto mb-10">
+          <p className="text-slate-500 text-xs sm:text-sm max-w-2xl mx-auto">
             Compatible with leading enterprise hardware and software technologies based on project requirements.
           </p>
+        </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4 max-w-5xl mx-auto">
-            {techLogos.map((tech) => (
+        {/* Automatic Infinite Marquee Slider with Framer Motion (Only Logos) */}
+        <div className="relative w-full overflow-hidden py-4 flex">
+          <motion.div 
+            className="flex gap-6 items-center shrink-0"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: 'loop',
+                duration: 28,
+                ease: 'linear',
+              },
+            }}
+          >
+            {[...techLogos, ...techLogos, ...techLogos].map((tech, idx) => (
               <div 
-                key={tech.name}
-                className="px-4 py-2.5 rounded-xl bg-[#f8fafc] border border-slate-200 text-xs font-bold text-slate-700 hover:border-emerald-500/50 hover:bg-emerald-50/50 transition-all cursor-default flex items-center gap-2 shadow-2xs"
+                key={`${tech.name}-${idx}`}
+                className="h-16 px-8 rounded-2xl bg-white border border-slate-200/90 soft-card-shadow flex items-center justify-center shrink-0 hover:border-emerald-500/40 hover:shadow-md transition-all cursor-default group"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                {tech.name}
+                {tech.logo ? (
+                  <img 
+                    src={tech.logo} 
+                    alt={tech.name} 
+                    className="h-7 max-w-[130px] object-contain grayscale group-hover:grayscale-0 transition-all opacity-85 group-hover:opacity-100"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                      if (e.target.nextSibling) e.target.nextSibling.style.display = 'block';
+                    }}
+                  />
+                ) : null}
+                <span className="text-xs font-extrabold text-slate-800 tracking-tight hidden uppercase">
+                  {tech.name}
+                </span>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
 
-      {/* ── SECTION 09: CLIENTS TRUST US ── */}
-      <section className="py-20 px-4 sm:px-6 bg-[#f8fafc] border-b border-slate-200/80">
+      {/* ── SECTION 08: CLIENTS TRUST US ── */}
+      <section className="py-20 px-4 sm:px-6 bg-white border-b border-slate-200/80">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
-              <span className="w-2 h-2 rounded-full bg-slate-800"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest mb-3">
+              <span className="w-2 h-2 rounded-full bg-slate-700"></span>
               CLIENTS TRUST US
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
@@ -601,15 +574,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {clientTestimonials.map((t, idx) => (
+            {testimonials.map((t, idx) => (
               <div 
                 key={idx}
-                className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between space-y-6"
+                className="bg-[#f8fafc] rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col justify-between space-y-6"
               >
                 <p className="text-sm text-slate-700 italic leading-relaxed font-normal">
                   "{t.quote}"
                 </p>
-                <div className="border-t border-slate-100 pt-4">
+                <div className="border-t border-slate-200/80 pt-4">
                   <h4 className="text-xs font-bold text-slate-900">— {t.author}</h4>
                   <p className="text-[0.7rem] text-slate-500">{t.org}</p>
                 </div>
@@ -620,7 +593,7 @@ export default function Home() {
       </section>
 
 
-      {/* ── SECTION 10: LET'S BUILD SMARTER OPERATIONS TOGETHER ── */}
+      {/* ── SECTION 09: LET'S BUILD SMARTER OPERATIONS TOGETHER ── */}
       <section className="py-20 px-4 sm:px-6 bg-slate-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
         <div className="absolute top-1/2 left-10 w-[500px] h-[250px] bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none"></div>

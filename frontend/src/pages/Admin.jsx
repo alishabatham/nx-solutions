@@ -288,102 +288,129 @@ export default function Admin() {
           })}
         </div>
 
-        {/* ── TAB 1: HOME PAGE EDITOR ── */}
+        {/* ── TAB 1: VISUAL LIVE HOME PAGE EDITOR ── */}
         {activeTab === 'home' && (
-          <div className="space-y-10">
+          <div className="space-y-12">
             
-            {/* Save Button Header */}
-            <div className="flex items-center justify-between bg-white rounded-[28px] p-6 border border-slate-100 soft-card-shadow">
+            {/* Visual Editor Info & Floating Bar */}
+            <div className="bg-slate-900 text-white rounded-[28px] p-6 border border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-bold text-slate-900">Home Page CMS Content</h2>
-                <p className="text-xs text-slate-500">Edit any section of the Home Page and save all changes live.</p>
+                <span className="text-[0.65rem] font-bold text-emerald-400 uppercase tracking-widest block mb-1">WYSIWYG Visual Editor</span>
+                <h2 className="text-xl font-bold">Visual Home Page Editor</h2>
+                <p className="text-xs text-slate-400">Edit text, buttons, and projects directly on the visual page preview below.</p>
               </div>
               <button
                 onClick={saveHome}
                 disabled={saving}
-                className="flex items-center gap-2 px-7 py-3 rounded-full bg-slate-900 hover:bg-emerald-600 text-white font-bold text-xs transition-all shadow-md cursor-pointer"
+                className="flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition-all shadow-xl shadow-emerald-500/20 cursor-pointer"
               >
-                <Save className="w-4 h-4" />
-                {saving ? 'Saving...' : 'Save All Home Content'}
+                <Save className="w-4.5 h-4.5" />
+                {saving ? 'Publishing Changes...' : 'Publish Home Changes Live'}
               </button>
             </div>
 
-            {/* Hero Section */}
-            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
-              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">1. Hero Section</h3>
-              <div className="space-y-4">
+            {/* ── VISUAL SECTION 1: HERO SECTION ── */}
+            <div className="bg-slate-950 text-white rounded-[36px] p-8 md:p-12 border border-slate-800 shadow-2xl relative overflow-hidden space-y-8">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Visual Section 01: Hero Banner</span>
+                <span className="text-[0.68rem] bg-slate-900 text-slate-400 px-3 py-1 rounded-full border border-slate-800">Live Preview & Inline Edit</span>
+              </div>
+
+              <div className="max-w-3xl mx-auto text-center space-y-6">
+                {/* Headline Title */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Subtitle</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">Hero Main Headline</label>
+                  <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-snug">
+                    Engineering <span className="text-emerald-400">Intelligent Solutions</span> for Modern Operations
+                  </h1>
+                </div>
+
+                {/* Subtitle Field */}
+                <div className="space-y-2">
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 block">Hero Subtitle Copy</label>
                   <textarea
                     rows={3}
                     value={homeData.hero.subtitle || ''}
                     onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, subtitle: e.target.value } })}
-                    className="w-full text-sm text-slate-800 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    className="w-full text-center text-sm text-slate-200 p-4 rounded-2xl bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:outline-none leading-relaxed font-normal"
+                    placeholder="Enter Hero Subtitle..."
                   />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Primary Button Text</label>
+
+                {/* Action Buttons Fields */}
+                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
+                  <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 text-left">
+                    <label className="text-[0.65rem] font-bold text-emerald-400 uppercase tracking-widest block">Primary CTA Button</label>
                     <input
                       type="text"
                       value={homeData.hero.primaryBtnText || 'Explore Industries'}
                       onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, primaryBtnText: e.target.value } })}
-                      className="w-full text-sm font-medium text-slate-900 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                      className="w-full text-xs font-bold text-slate-950 p-3 rounded-xl bg-emerald-400 focus:outline-none"
                     />
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Secondary Button Text</label>
+                  <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2 text-left">
+                    <label className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-widest block">Secondary CTA Button</label>
                     <input
                       type="text"
                       value={homeData.hero.secondaryBtnText || 'Schedule Consultation'}
                       onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, secondaryBtnText: e.target.value } })}
-                      className="w-full text-sm font-medium text-slate-900 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                      className="w-full text-xs font-semibold text-white p-3 rounded-xl bg-slate-950 border border-slate-700 focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* About Section */}
-            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
-              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">2. About NX Solution Section</h3>
+            {/* ── VISUAL SECTION 2: ABOUT NX SOLUTION ── */}
+            <div className="bg-white rounded-[36px] p-8 md:p-12 border border-slate-200/90 soft-card-shadow space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <span className="text-xs font-mono font-bold text-slate-600 uppercase tracking-wider">Visual Section 02: About NX Solution</span>
+                <span className="text-[0.68rem] bg-slate-100 text-slate-600 px-3 py-1 rounded-full border border-slate-200">About Section Content</span>
+              </div>
+
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">About Title</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">About Section Title</label>
                   <input
                     type="text"
                     value={homeData.about.title || ''}
                     onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, title: e.target.value } })}
-                    className="w-full text-base font-bold text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    className="w-full text-lg font-bold text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none focus:bg-white focus:border-emerald-500"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Paragraph 1</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">Description Paragraph 1</label>
                   <textarea
                     rows={2}
                     value={homeData.about.description1 || ''}
                     onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, description1: e.target.value } })}
-                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    className="w-full text-xs text-slate-700 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none focus:bg-white focus:border-emerald-500"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Paragraph 2</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">Description Paragraph 2</label>
                   <textarea
                     rows={2}
                     value={homeData.about.description2 || ''}
                     onChange={(e) => setHomeData({ ...homeData, about: { ...homeData.about, description2: e.target.value } })}
-                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    className="w-full text-xs text-slate-700 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none focus:bg-white focus:border-emerald-500"
                   />
                 </div>
               </div>
             </div>
 
-            {/* From Challenges to Solutions Section */}
-            <div className="bg-white rounded-[32px] p-8 md:p-10 soft-card-shadow border border-slate-100/80 space-y-6">
-              <h3 className="text-base font-bold text-slate-900 border-b border-slate-100 pb-3">3. Challenges to Solutions Section</h3>
+            {/* ── VISUAL SECTION 3: FROM CHALLENGES TO SOLUTIONS ── */}
+            <div className="bg-white rounded-[36px] p-8 md:p-12 border border-slate-200/90 soft-card-shadow space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <span className="text-xs font-mono font-bold text-rose-600 uppercase tracking-wider">Visual Section 03: Operational Challenges</span>
+                <span className="text-[0.68rem] bg-rose-50 text-rose-600 px-3 py-1 rounded-full border border-rose-200">Pain Points & Outcomes</span>
+              </div>
+
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Section Title</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">Challenges Section Title</label>
                   <input
                     type="text"
                     value={homeData.challenges.title || ''}
@@ -391,16 +418,170 @@ export default function Admin() {
                     className="w-full text-base font-bold text-slate-900 p-4 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
                   />
                 </div>
+
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Section Subtitle</label>
+                  <label className="text-[0.68rem] font-semibold uppercase tracking-widest text-slate-400 mb-2 block">Challenges Subtitle</label>
                   <textarea
                     rows={2}
                     value={homeData.challenges.subtitle || ''}
                     onChange={(e) => setHomeData({ ...homeData, challenges: { ...homeData.challenges, subtitle: e.target.value } })}
-                    className="w-full text-xs text-slate-700 p-3 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
+                    className="w-full text-xs text-slate-700 p-3.5 rounded-2xl bg-[#f7f8fa] border border-slate-200 focus:outline-none"
                   />
                 </div>
               </div>
+            </div>
+
+            {/* ── VISUAL SECTION 6: ENTERPRISE SOLUTIONS SUITE ── */}
+            <div className="bg-white rounded-[36px] p-8 md:p-12 border border-slate-200/90 soft-card-shadow space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <span className="text-xs font-mono font-bold text-slate-900 uppercase tracking-wider">Visual Section 06: Solution Cards</span>
+                <span className="text-[0.68rem] bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200">{homeData.solutions.length} Cards</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {homeData.solutions.map((sol, idx) => (
+                  <div key={sol.id || idx} className="bg-[#f8fafc] rounded-2xl p-6 border border-slate-200 space-y-3 relative group">
+                    <span className="text-[0.65rem] font-bold text-slate-400 uppercase tracking-wider">Solution #{idx + 1}</span>
+                    <input
+                      type="text"
+                      value={sol.name || ''}
+                      onChange={(e) => {
+                        const updated = [...homeData.solutions];
+                        updated[idx] = { ...updated[idx], name: e.target.value };
+                        setHomeData({ ...homeData, solutions: updated });
+                      }}
+                      className="w-full text-sm font-bold text-slate-900 p-2.5 rounded-xl bg-white border border-slate-200 focus:outline-none"
+                      placeholder="Solution Name..."
+                    />
+                    <input
+                      type="text"
+                      value={sol.subtitle || ''}
+                      onChange={(e) => {
+                        const updated = [...homeData.solutions];
+                        updated[idx] = { ...updated[idx], subtitle: e.target.value };
+                        setHomeData({ ...homeData, solutions: updated });
+                      }}
+                      className="w-full text-xs font-medium text-slate-600 p-2 rounded-xl bg-white border border-slate-200 focus:outline-none"
+                      placeholder="Tag Subtitle..."
+                    />
+                    <textarea
+                      rows={2}
+                      value={sol.desc || ''}
+                      onChange={(e) => {
+                        const updated = [...homeData.solutions];
+                        updated[idx] = { ...updated[idx], desc: e.target.value };
+                        setHomeData({ ...homeData, solutions: updated });
+                      }}
+                      className="w-full text-xs text-slate-600 p-2.5 rounded-xl bg-white border border-slate-200 focus:outline-none resize-none"
+                      placeholder="Description..."
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── VISUAL SECTION 7: LIVE PROJECTS & DEPLOYMENTS ── */}
+            <div className="bg-white rounded-[36px] p-8 md:p-12 border border-slate-200/90 soft-card-shadow space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <span className="text-xs font-mono font-bold text-slate-900 uppercase tracking-wider">Visual Section 07: Live Projects</span>
+                <button
+                  onClick={() => {
+                    const newProj = {
+                      id: `proj_${Date.now()}`,
+                      title: 'New Enterprise Deployment',
+                      location: 'City, Country',
+                      status: 'Active Deployment',
+                      statusBg: 'bg-emerald-500/80 text-white',
+                      desc: 'Full-scale AI security rollout with automated access.',
+                      image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80'
+                    };
+                    setHomeData({ ...homeData, projects: [...homeData.projects, newProj] });
+                  }}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 hover:bg-slate-100 text-slate-700 text-xs font-medium cursor-pointer shadow-2xs"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Add Project Card
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {homeData.projects.map((proj, idx) => (
+                  <div key={proj.id || idx} className="bg-[#f8fafc] rounded-2xl p-5 border border-slate-200 space-y-3 relative group">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.65rem] font-bold text-slate-400 uppercase">Project #{idx + 1}</span>
+                      <button
+                        onClick={() => {
+                          const updated = homeData.projects.filter((_, i) => i !== idx);
+                          setHomeData({ ...homeData, projects: updated });
+                        }}
+                        className="text-rose-500 hover:text-rose-700 text-xs flex items-center gap-1 cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" /> Delete
+                      </button>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={proj.title || ''}
+                      onChange={(e) => {
+                        const updated = [...homeData.projects];
+                        updated[idx] = { ...updated[idx], title: e.target.value };
+                        setHomeData({ ...homeData, projects: updated });
+                      }}
+                      className="w-full text-xs font-bold text-slate-900 p-2.5 rounded-xl bg-white border border-slate-200 focus:outline-none"
+                      placeholder="Project Title..."
+                    />
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        value={proj.location || ''}
+                        onChange={(e) => {
+                          const updated = [...homeData.projects];
+                          updated[idx] = { ...updated[idx], location: e.target.value };
+                          setHomeData({ ...homeData, projects: updated });
+                        }}
+                        className="w-full text-[0.7rem] text-slate-700 p-2 rounded-xl bg-white border border-slate-200 focus:outline-none"
+                        placeholder="Location..."
+                      />
+                      <input
+                        type="text"
+                        value={proj.status || ''}
+                        onChange={(e) => {
+                          const updated = [...homeData.projects];
+                          updated[idx] = { ...updated[idx], status: e.target.value };
+                          setHomeData({ ...homeData, projects: updated });
+                        }}
+                        className="w-full text-[0.7rem] text-slate-700 p-2 rounded-xl bg-white border border-slate-200 focus:outline-none"
+                        placeholder="Status..."
+                      />
+                    </div>
+
+                    <textarea
+                      rows={2}
+                      value={proj.desc || ''}
+                      onChange={(e) => {
+                        const updated = [...homeData.projects];
+                        updated[idx] = { ...updated[idx], desc: e.target.value };
+                        setHomeData({ ...homeData, projects: updated });
+                      }}
+                      className="w-full text-xs text-slate-600 p-2.5 rounded-xl bg-white border border-slate-200 focus:outline-none resize-none"
+                      placeholder="Project description..."
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Floating Save Button */}
+            <div className="sticky bottom-6 z-40 flex justify-center">
+              <button
+                onClick={saveHome}
+                disabled={saving}
+                className="flex items-center gap-3 px-8 py-4 rounded-full bg-slate-950 hover:bg-emerald-600 text-white font-extrabold text-xs transition-all shadow-2xl border border-emerald-500/40 cursor-pointer animate-pulse"
+              >
+                <Save className="w-5 h-5 text-emerald-400" />
+                {saving ? 'Publishing Changes...' : 'Save All Home Page Content Live'}
+              </button>
             </div>
 
           </div>
