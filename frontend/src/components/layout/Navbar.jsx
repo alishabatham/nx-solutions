@@ -9,31 +9,37 @@ export function Navbar() {
   const [location] = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 16);
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
+    { name: 'Home', path: '/' },
     { name: 'Industries', path: '/industries' },
     { name: 'Contact Us', path: '/contact' },
   ];
 
+  const isHomePage = location === '/';
+  const isDarkNavbar = isHomePage && !isScrolled;
+
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#f7f8fa]/90 backdrop-blur-md border-b border-slate-200/60 shadow-sm'
-          : 'bg-[#f7f8fa]/80 backdrop-blur-sm'
+        isDarkNavbar
+          ? 'bg-transparent text-white border-b border-transparent'
+          : 'bg-white/95 backdrop-blur-md border-b border-slate-200/80 text-slate-900 shadow-sm'
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between" style={{ height: '76px' }}>
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 cursor-pointer group">
-          <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white text-xs font-semibold tracking-tight group-hover:scale-105 transition-transform">
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-extrabold tracking-tight group-hover:scale-105 transition-transform ${
+            isDarkNavbar ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20' : 'bg-slate-900 text-white'
+          }`}>
             NX
           </div>
-          <span className="text-base font-semibold tracking-tight text-slate-900">
+          <span className={`text-base font-bold tracking-tight ${isDarkNavbar ? 'text-white' : 'text-slate-900'}`}>
             NX Solutions
           </span>
         </Link>
@@ -46,8 +52,10 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.path}
-                className={`text-sm font-normal transition-colors ${
-                  isActive ? 'text-slate-900 font-medium' : 'text-slate-600 hover:text-slate-900'
+                className={`text-sm font-medium transition-colors ${
+                  isDarkNavbar
+                    ? isActive ? 'text-emerald-400 font-semibold' : 'text-slate-300 hover:text-white'
+                    : isActive ? 'text-emerald-600 font-semibold' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {link.name}
@@ -60,7 +68,11 @@ export function Navbar() {
         <div className="hidden md:flex items-center">
           <Link
             href="/contact"
-            className="inline-flex items-center px-5 py-2 rounded-full bg-slate-900 hover:bg-blue-600 text-white font-medium text-xs transition-all shadow-sm duration-200"
+            className={`inline-flex items-center px-5 py-2.5 rounded-xl font-semibold text-xs transition-all shadow-sm duration-200 cursor-pointer ${
+              isDarkNavbar
+                ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-emerald-500/20'
+                : 'bg-slate-900 hover:bg-emerald-600 text-white'
+            }`}
           >
             Contact Us
           </Link>
@@ -68,14 +80,18 @@ export function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 rounded-full bg-white border border-slate-200 hover:bg-slate-100 transition-colors"
+          className={`md:hidden p-2 rounded-xl transition-colors ${
+            isDarkNavbar 
+              ? 'bg-slate-900 text-white border border-slate-800' 
+              : 'bg-white text-slate-700 border border-slate-200'
+          }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
-            <X className="w-5 h-5 text-slate-700" />
+            <X className="w-5 h-5" />
           ) : (
-            <Menu className="w-5 h-5 text-slate-700" />
+            <Menu className="w-5 h-5" />
           )}
         </button>
       </div>
@@ -88,7 +104,11 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18 }}
-            className="absolute top-full left-0 w-full bg-[#f7f8fa] border-b border-slate-200 shadow-lg px-6 py-6 flex flex-col gap-2"
+            className={`absolute top-full left-0 w-full border-b shadow-lg px-6 py-6 flex flex-col gap-2 ${
+              isDarkNavbar 
+                ? 'bg-slate-950 text-white border-slate-800' 
+                : 'bg-white text-slate-900 border-slate-200'
+            }`}
           >
             {navLinks.map((link) => {
               const isActive = location === link.path;
@@ -96,10 +116,10 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   href={link.path}
-                  className={`px-4 py-3 rounded-2xl text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-white text-slate-900 shadow-sm'
-                      : 'text-slate-700 hover:bg-slate-100'
+                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    isDarkNavbar
+                      ? isActive ? 'bg-slate-900 text-emerald-400 font-semibold' : 'text-slate-300 hover:bg-slate-900'
+                      : isActive ? 'bg-slate-100 text-slate-900 font-semibold' : 'text-slate-700 hover:bg-slate-50'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >

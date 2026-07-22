@@ -50,119 +50,114 @@ export default function Home() {
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden font-sans">
 
       {/* ── SECTION 01: HERO SECTION ── */}
-      <section className="relative min-h-[92vh] bg-slate-950 text-white pt-36 pb-20 px-4 sm:px-6 flex flex-col justify-center items-center text-center overflow-hidden border-b border-slate-800/80">
-        {/* Advanced Tech Grid Pattern & Ambient Glows */}
-        <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-35"></div>
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-emerald-500/20 blur-[150px] rounded-full pointer-events-none"></div>
-        <div className="absolute top-1/2 right-10 w-[350px] h-[250px] bg-teal-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+      <section className="relative min-h-[85vh] bg-slate-950 text-white pt-28 pb-16 px-4 sm:px-6 flex items-center justify-center overflow-hidden border-b border-slate-800/80">
+        {/* Network / Tech Grid Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-50"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-emerald-500/10 blur-[140px] rounded-full pointer-events-none"></div>
 
-        <div className="container mx-auto max-w-5xl relative z-10 flex flex-col items-center text-center space-y-7">
+        <div className="w-full max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          {/* Left Wing Images (Hidden on small mobile, visible on tablet/desktop) */}
+          <div className="hidden sm:grid lg:col-span-3 grid-cols-2 lg:grid-cols-1 gap-3">
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&q=80" 
+                alt="Smart Campus" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
+            </div>
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=80" 
+                alt="Warehouse & Logistics" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
+            </div>
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group col-span-2 lg:col-span-1">
+              <img 
+                src="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=600&q=80" 
+                alt="Security & Diagnostics" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
+            </div>
+          </div>
 
-          {/* Subtly Glowing Pill Badge */}
-          <motion.div 
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-medium tracking-wide backdrop-blur-md shadow-lg shadow-emerald-500/5"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>AI & IoT Solution Engineering</span>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-300 font-normal">Enterprise Automation</span>
-          </motion.div>
-
-          {/* Main High-Impact Middle Aligned Headline */}
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-[4.75rem] font-extrabold tracking-tight leading-[1.08] text-white max-w-4xl mx-auto"
-          >
-            Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 gradient-text-glow">Intelligent Solutions</span> for Modern Operations
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-slate-300 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl mx-auto"
-          >
-            {hero.subtitle}
-          </motion.p>
-
-          {/* Action Buttons (Center Aligned) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex flex-wrap items-center justify-center gap-4 pt-3"
-          >
-            <Link
-              href="/industries"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold text-sm transition-all duration-300 shadow-xl shadow-emerald-500/25 hover:shadow-emerald-400/40 transform hover:-translate-y-0.5 cursor-pointer"
+          {/* Center Copy & CTAs */}
+          <div className="lg:col-span-6 text-center space-y-6 px-2 sm:px-4">
+            <motion.h1 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl sm:text-5xl lg:text-[3.25rem] font-bold tracking-tight leading-[1.15] text-white max-w-2xl mx-auto"
             >
-              {hero.primaryBtnText || 'Explore Industries'}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              Engineering<br />
+              Intelligent <span className="text-emerald-500 font-extrabold">Solutions</span><br />
+              for Modern Operations
+            </motion.h1>
 
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700/80 transition-all duration-300 hover:border-emerald-500/50 shadow-md backdrop-blur-md cursor-pointer"
+            <motion.p 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-slate-300 text-xs sm:text-sm md:text-base font-normal leading-relaxed max-w-xl mx-auto"
             >
-              <Calendar className="w-4 h-4 text-emerald-400" />
-              {hero.secondaryBtnText || 'Schedule Consultation'}
-            </Link>
-          </motion.div>
+              {hero.subtitle}
+            </motion.p>
 
-          {/* Enterprise Metrics Bar */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="pt-2 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-slate-400 font-medium border-t border-slate-800/80 max-w-xl mx-auto"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>50+ Vertical Verticals</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Real-Time AI Vision</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>99.9% Operational Reliability</span>
-            </div>
-          </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="flex flex-wrap items-center justify-center gap-3.5 pt-2"
+            >
+              <Link
+                href="/industries"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-600/25 cursor-pointer"
+              >
+                {hero.primaryBtnText || 'Explore Industries'}
+                <ArrowRight className="w-4 h-4" />
+              </Link>
 
-          {/* Centered Image Grid Showcase Banner */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full pt-6"
-          >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 max-w-5xl mx-auto">
-              {hero.heroImages.map((img, i) => (
-                <div
-                  key={i}
-                  className="group relative rounded-2xl overflow-hidden border border-slate-800/90 hover:border-emerald-500/50 shadow-2xl h-36 sm:h-44 transition-all duration-500 glass-card-dark"
-                >
-                  <img 
-                    src={img.url} 
-                    alt={img.title} 
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 opacity-75 group-hover:opacity-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-                    <span className="text-[0.7rem] font-bold text-white tracking-wide truncate">{img.title}</span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0 shadow-sm shadow-emerald-400/80"></span>
-                  </div>
-                </div>
-              ))}
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-slate-950/90 hover:bg-slate-900 text-white font-medium text-xs sm:text-sm border border-slate-700/90 transition-all shadow-md cursor-pointer"
+              >
+                <Calendar className="w-4 h-4 text-white" />
+                {hero.secondaryBtnText || 'Schedule Consultation'}
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Right Wing Images (Hidden on small mobile, visible on tablet/desktop) */}
+          <div className="hidden sm:grid lg:col-span-3 grid-cols-2 lg:grid-cols-1 gap-3">
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" 
+                alt="Smart Factory" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
             </div>
-          </motion.div>
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group">
+              <img 
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" 
+                alt="Control Room Monitoring" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
+            </div>
+            <div className="h-32 sm:h-36 rounded-xl overflow-hidden border border-slate-800/80 shadow-lg relative group col-span-2 lg:col-span-1">
+              <img 
+                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80" 
+                alt="Smart Fleet & Transport" 
+                className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity"
+              />
+              <div className="absolute inset-0 bg-slate-950/40"></div>
+            </div>
+          </div>
 
         </div>
       </section>
@@ -384,60 +379,64 @@ export default function Home() {
 
 
       {/* ── SECTION 05: OUR SOLUTION ENGINEERING PROCESS ── */}
-      <section className="py-24 px-4 sm:px-6 bg-slate-900 text-white relative overflow-hidden border-b border-slate-800">
-        {/* Ambient Glow & Tech Grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-emerald-500/10 blur-[150px] rounded-full pointer-events-none"></div>
-
-        <div className="container mx-auto max-w-7xl relative z-10 text-center space-y-12">
+      <section className="py-20 px-4 sm:px-6 bg-[#fdfbfd] border-b border-slate-200/60 font-sans">
+        <div className="container mx-auto max-w-7xl space-y-10">
           
-          <div className="space-y-4 max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-widest backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              OUR SOLUTION ENGINEERING PROCESS
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5 block">
+                OUR SOLUTION ENGINEERING PROCESS
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+                Step-by-step Methodology
+              </h2>
             </div>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-              7-Step Methodology for End-to-End Success
-            </h2>
-            <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
-              A disciplined engineering workflow that transforms complex operational bottlenecks into seamless, automated intelligence.
+            <p className="text-slate-500 text-xs sm:text-sm max-w-md font-normal leading-relaxed">
+              A structured engineering workflow that turns operational challenges into automated AI & IoT ecosystems.
             </p>
           </div>
 
-          {/* Stepper Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 relative text-left">
+          {/* Stepper Connector Line + Step Circles Container */}
+          <div className="relative pt-6 pb-2 hidden lg:block">
+            {/* Horizontal Line behind circles */}
+            <div className="absolute top-[calc(1.5rem+6px)] left-[3.5%] right-[3.5%] h-[2px] bg-slate-200 -z-0"></div>
+
+            {/* Row of 7 Step Number Circles */}
+            <div className="grid grid-cols-7 gap-4 relative z-10 text-center">
+              {processSteps.map((step) => (
+                <div key={step.step} className="flex justify-center items-center">
+                  <div className="w-9 h-9 rounded-full bg-white border-2 border-slate-300 text-slate-600 font-semibold text-xs flex items-center justify-center shadow-2xs ring-4 ring-[#fdfbfd]">
+                    {step.step}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 7 Clean White Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 text-left">
             {processSteps.map((step, idx) => {
               const icons = { Glasses, Search, BarChart2, PenTool, Cpu, Rocket, RefreshCcw };
               const IconComp = icons[step.icon] || CheckCircle2;
               return (
                 <div 
                   key={step.step}
-                  className="group relative bg-slate-950/80 rounded-3xl p-6 border border-slate-800 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-500 flex flex-col justify-between space-y-5 overflow-hidden backdrop-blur-md"
+                  className="group bg-white rounded-2xl p-5 border border-slate-200/80 shadow-[0_10px_30px_rgba(0,0,0,0.03)] hover:shadow-xl hover:border-slate-300 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 min-h-[190px]"
                 >
-                  {/* Top Gradient Accent Strip */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-600 opacity-40 group-hover:opacity-100 transition-opacity"></div>
+                  {/* Linear Icon */}
+                  <div className="text-slate-700 group-hover:text-slate-950 transition-colors">
+                    <IconComp className="w-6 h-6 stroke-[1.75]" />
+                  </div>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 shadow-2xs">
-                      STEP {step.step}
+                  <div className="space-y-1">
+                    <span className="text-[0.65rem] font-semibold uppercase tracking-widest text-slate-400 block">
+                      STEP {idx + 1}
                     </span>
-                    {idx < processSteps.length - 1 && (
-                      <ChevronRight className="w-4 h-4 text-slate-700 hidden xl:block group-hover:text-emerald-400 transition-colors" />
-                    )}
-                  </div>
-
-                  {/* Glowing Icon Container */}
-                  <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 text-emerald-400 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-600 group-hover:text-slate-950 group-hover:border-transparent group-hover:scale-110 transition-all duration-300 shadow-md">
-                    <IconComp className="w-6 h-6" />
-                  </div>
-
-                  {/* Title & Description */}
-                  <div className="space-y-1.5 pt-2">
-                    <h3 className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">
+                    <h3 className="text-xs font-bold text-slate-900 tracking-tight leading-snug group-hover:text-slate-950 transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-[0.73rem] text-slate-400 font-normal leading-relaxed">
+                    <p className="text-[0.68rem] text-slate-500 font-normal leading-normal line-clamp-2">
                       {step.desc}
                     </p>
                   </div>
@@ -445,6 +444,7 @@ export default function Home() {
               );
             })}
           </div>
+
         </div>
       </section>
 
