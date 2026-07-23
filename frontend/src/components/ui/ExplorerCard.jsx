@@ -18,7 +18,21 @@ const FallbackIcons = {
   energy: Zap,
 };
 
-export function ExplorerCard({ id, title, subtitle, icon, onClick, isProblemLevel }) {
+const FallbackImages = {
+  education: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
+  healthcare: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
+  manufacturing: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
+  corporate: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
+  logistics: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+  banking: 'https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=800&q=80',
+  retail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
+  airport: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=800&q=80',
+  railway: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=800&q=80',
+  energy: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80',
+  default: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&q=80'
+};
+
+export function ExplorerCard({ id, title, subtitle, icon, image, onClick, isProblemLevel }) {
   let IconComponent = icon ? IconMap[icon] : null;
 
   if (!IconComponent && id) {
@@ -29,42 +43,34 @@ export function ExplorerCard({ id, title, subtitle, icon, onClick, isProblemLeve
     IconComponent = Layers;
   }
 
+  const cardImage = image || (id ? FallbackImages[id.toLowerCase()] : null) || FallbackImages.default;
+
   return (
     <motion.div
-      whileHover={{ y: -5, scale: 1.012 }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-      className={`group relative rounded-[24px] sm:rounded-[28px] cursor-pointer bg-white soft-card-shadow soft-card-hover min-h-[190px] sm:min-h-[220px] flex flex-col items-center justify-center text-center p-6 sm:p-8 transition-all border ${
-        isProblemLevel
-          ? 'border-rose-200 hover:border-rose-500 bg-rose-50/20 shadow-rose-500/5'
-          : 'border-slate-100'
-      }`}
+      whileHover={{ y: -6, scale: 1.015 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+      className="group relative rounded-[20px] sm:rounded-[28px] overflow-hidden cursor-pointer bg-slate-900 h-[300px] xs:h-[340px] sm:h-[390px] md:h-[420px] shadow-md border border-slate-200/80 transition-all select-none"
       onClick={onClick}
     >
-      {/* Top Centered Icon Badge */}
-      <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-2xl flex items-center justify-center mb-3 sm:mb-4 transition-colors duration-300 shadow-sm shrink-0 border ${
-        isProblemLevel
-          ? 'bg-rose-100/80 border-rose-200 text-rose-600 group-hover:bg-rose-600 group-hover:text-white'
-          : 'bg-blue-50/90 border-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white'
-      }`}>
-        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2]" />
+      {/* Full Cover Image */}
+      <img 
+        src={cardImage} 
+        alt={title} 
+        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+      />
+
+      {/* Bottom Gradient Overlay & Title */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-4 sm:p-5 text-left z-10">
+        <h3 className="font-extrabold text-sm sm:text-base md:text-lg text-white tracking-tight leading-snug drop-shadow-md group-hover:text-emerald-400 transition-colors">
+          {title}
+        </h3>
+        {subtitle && (
+          <p className="text-[0.7rem] sm:text-xs font-normal text-slate-300 mt-0.5 sm:mt-1 line-clamp-2 leading-relaxed opacity-90">
+            {subtitle}
+          </p>
+        )}
       </div>
-
-      {/* Centered Title */}
-      <h3 className={`font-bold text-base sm:text-lg leading-snug tracking-tight transition-colors ${
-        isProblemLevel
-          ? 'text-slate-900 group-hover:text-rose-600'
-          : 'text-slate-900 group-hover:text-blue-600'
-      }`}>
-        {title}
-      </h3>
-
-      {/* Centered Subtitle */}
-      {subtitle && (
-        <p className="text-[0.75rem] sm:text-xs font-normal mt-1 sm:mt-1.5 leading-relaxed text-slate-500 max-w-[220px]">
-          {subtitle}
-        </p>
-      )}
     </motion.div>
   );
 }

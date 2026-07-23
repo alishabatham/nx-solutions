@@ -15,9 +15,9 @@ export const defaultHero = {
 };
 
 export const aboutSection = {
-  badge: 'ABOUT NX SOLUTION',
+  badge: 'ABOUT NX SOLUTIONS',
   title: 'Pioneering AI & IoT Engineering for Complex Environments',
-  description1: 'NX Solution is an AI & IoT Solution Engineering company that designs and deploys intelligent ecosystems to solve complex operational challenges across industries.',
+  description1: 'NX Solutions is an AI & IoT Solution Engineering company that designs and deploys intelligent ecosystems to solve complex operational challenges across industries.',
   description2: 'We don\'t sell off-the-shelf products. We engineer complete end-to-end solutions tailored around real operational challenges.',
   description3: 'Every organization is unique. Every challenge is different. That\'s why every solution we build is designed specifically for your operational environment.',
   teamImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80',
@@ -139,12 +139,12 @@ export const techLogos = [
 
 export const clientTestimonials = [
   {
-    quote: 'NX Solution team understood our operational challenges deeply and delivered an intelligent solution that improved our security, efficiency and overall management.',
+    quote: 'NX Solutions team understood our operational challenges deeply and delivered an intelligent solution that improved our security, efficiency and overall management.',
     author: 'Director Operations',
     org: 'Leading Educational Institution, Indore'
   },
   {
-    quote: 'Professional approach, deep technical knowledge and timely execution. NX Solution is a trusted technology partner for our organization.',
+    quote: 'Professional approach, deep technical knowledge and timely execution. NX Solutions is a trusted technology partner for our organization.',
     author: 'Facility Manager',
     org: 'Multi-specialty Hospital, Madhya Pradesh'
   }

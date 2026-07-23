@@ -164,10 +164,13 @@ export default function Admin() {
   // Current list for selected level
   const currentCards = explorerSections[selectedLevel] || [];
 
-  const updateCurrentCard = (index, field, value) => {
-    const updatedList = [...currentCards];
-    updatedList[index] = { ...updatedList[index], [field]: value };
-    setExplorerSections({ ...explorerSections, [selectedLevel]: updatedList });
+  const handleImageFileUpload = (index, file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      updateCurrentCard(index, 'image', e.target.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const addCardToCurrentLevel = () => {
@@ -175,7 +178,8 @@ export default function Admin() {
       id: `custom_${Date.now()}`,
       name: 'New Option',
       subtitle: 'Smart Automation & AI',
-      icon: 'Shield'
+      icon: 'Shield',
+      image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&q=80'
     };
     setExplorerSections({
       ...explorerSections,
@@ -364,7 +368,7 @@ export default function Admin() {
             {/* ── VISUAL SECTION 2: ABOUT NX SOLUTION ── */}
             <div className="bg-white rounded-[36px] p-8 md:p-12 border border-slate-200/90 soft-card-shadow space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                <span className="text-xs font-mono font-bold text-slate-600 uppercase tracking-wider">Visual Section 02: About NX Solution</span>
+                <span className="text-xs font-mono font-bold text-slate-600 uppercase tracking-wider">Visual Section 02: About NX Solutions</span>
                 <span className="text-[0.68rem] bg-slate-100 text-slate-600 px-3 py-1 rounded-full border border-slate-200">About Section Content</span>
               </div>
 
@@ -690,6 +694,45 @@ export default function Admin() {
                       onChange={(e) => updateCurrentCard(idx, 'subtitle', e.target.value)}
                       className="w-full px-3 py-2 rounded-xl bg-[#f7f8fa] border border-slate-200 text-xs text-slate-600 focus:outline-none resize-none font-normal"
                     />
+                  </div>
+
+                  {/* Card Cover Image Upload & URL */}
+                  <div className="space-y-1.5">
+                    <label className="block text-[0.65rem] font-semibold uppercase tracking-wider text-slate-400 text-left">
+                      Card Cover Image
+                    </label>
+
+                    {/* Image Preview Thumbnail */}
+                    {card.image && (
+                      <div className="w-full h-28 rounded-xl overflow-hidden border border-slate-200 bg-slate-900 relative group">
+                        <img src={card.image} alt="Card preview" className="w-full h-full object-cover" />
+                        <span className="absolute bottom-1 right-2 text-[0.6rem] bg-slate-950/80 text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                          Active Image
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col gap-2">
+                      {/* File Upload Button */}
+                      <label className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold cursor-pointer transition-colors border border-slate-200">
+                        <span>📷 Upload Image File</span>
+                        <input 
+                          type="file" 
+                          accept="image/*" 
+                          className="hidden" 
+                          onChange={(e) => handleImageFileUpload(idx, e.target.files[0])} 
+                        />
+                      </label>
+
+                      {/* Image URL Direct Input */}
+                      <input
+                        type="text"
+                        placeholder="Or paste Image URL (Unsplash, CDN...)"
+                        value={card.image || ''}
+                        onChange={(e) => updateCurrentCard(idx, 'image', e.target.value)}
+                        className="w-full px-3 py-2 rounded-xl bg-[#f7f8fa] border border-slate-200 text-[0.7rem] font-mono text-slate-900 focus:outline-none"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

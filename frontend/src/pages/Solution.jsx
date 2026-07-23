@@ -1,134 +1,321 @@
-import { Link } from 'wouter';
+import { Link, useSearch, useLocation, useRoute } from 'wouter';
 import { motion } from 'framer-motion';
 import { PageTransition } from '@/components/ui/ExplorerCard';
-import { ArrowRight, PhoneCall, ShieldCheck, CheckCircle2 } from 'lucide-react';
-
-import img1 from '@/assets/generated_images/sec_1.jpg';
-import img2 from '@/assets/generated_images/sec_2.jpg';
-import img3 from '@/assets/generated_images/sec_3.jpg';
-import img4 from '@/assets/generated_images/sec_4.jpg';
-import img5 from '@/assets/generated_images/sec_5.jpg';
-import img6 from '@/assets/generated_images/sec_6.jpg';
-
-const solutionsData = [
-  {
-    id: 'campus-security',
-    title: 'Enhanced campus security with eliminated security risks',
-    description: 'NX Solution offers comprehensive on- and off-campus security solutions covering school buses, gates, perimeters, buildings, and internal roads, with a wealth of security applications for vehicle, personnel, and alarm management. NX can ensure students, parents, and administrators enjoy a secured and serene learning environment.',
-    linkText: 'Campus Security Solution',
-    image: img1,
-  },
-  {
-    id: 'attendance-efficiency',
-    title: 'Flexible attendance solutions with enhanced efficiency',
-    description: "NX Solution's student and staff attendance solution satisfies common participation needs on campus with access control terminals and intelligent attendance devices. Efficient and automatic data recording adds to management efficiency of teachers and school administrators.",
-    linkText: 'Students Attendance Solutions',
-    image: img2,
-  },
-  {
-    id: 'anpr-gate-access',
-    title: 'Automated ANPR vehicle gate access & traffic control',
-    description: 'Streamline entry gates with automatic number plate recognition (ANPR), barrier control, and automated visitor pass verification for vehicles entering industrial plants, educational campuses, or corporate parks.',
-    linkText: 'Vehicle & Gate Access Solutions',
-    image: img3,
-  },
-  {
-    id: 'ai-perimeter-vision',
-    title: 'AI-driven perimeter vision & intrusion detection',
-    description: 'Continuous 24/7 CCTV surveillance analytics with real-time liveness detection, virtual boundary crossing alerts, and instant incident escalation to central command centers.',
-    linkText: 'Perimeter & AI Vision Solutions',
-    image: img4,
-  },
-  {
-    id: 'smart-workspace',
-    title: 'Smart building & occupancy utilization analytics',
-    description: 'Optimize space utilization, room booking, and facility energy consumption using IoT spatial sensors, occupancy counters, and unified dashboard orchestration for corporate offices.',
-    linkText: 'Smart Workspace Solutions',
-    image: img5,
-  },
-  {
-    id: 'command-center',
-    title: 'Centralized operations command & emergency mustering',
-    description: 'Single-pane-of-glass dashboard providing live headcount tracking, emergency evacuation Mustering, visitor audit logs, and direct ERP system integrations.',
-    linkText: 'Central Operations Solutions',
-    image: img6,
-  },
-];
+import { healthcareSolutions } from '@/data/healthcareData';
+import { toTitleCase } from '@/data/explorer';
+import { 
+  ArrowRight, PhoneCall, ShieldCheck, CheckCircle2, ChevronRight, 
+  Sparkles, Activity, Users, Car, ShieldAlert, Check, 
+  ArrowDown, ArrowUp, FileText, LayoutDashboard, Cpu, Wrench, 
+  Settings, AlertTriangle, Clock, Lock, UserX, Layers, Calendar, 
+  Shield, FileCheck, RefreshCw, BarChart3, HelpCircle, AlertCircle
+} from 'lucide-react';
 
 export default function Solution() {
+  const [matchFullRoute, paramsFullRoute] = useRoute('/industries/:industry/:domain/:area/:module/:problem');
+  const [matchSolutionRoute, paramsSolutionRoute] = useRoute('/solution/:problem');
+  const searchString = useSearch();
+  const searchParams = new URLSearchParams(searchString || '');
+  const problemParam = searchParams.get('problem');
+
+  // Determine active problem ID
+  const activeProblemId = paramsFullRoute?.problem || paramsSolutionRoute?.problem || problemParam || 'unauthorized-visitor';
+
+  // Active solution dataset
+  const activeSolution = healthcareSolutions[activeProblemId] || healthcareSolutions['unauthorized-visitor'];
+
+  // Dynamic breadcrumbs
+  const breadcrumbs = paramsFullRoute ? [
+    { label: toTitleCase(paramsFullRoute.industry), path: `/industries/${paramsFullRoute.industry}` },
+    { label: toTitleCase(paramsFullRoute.domain), path: `/industries/${paramsFullRoute.industry}/${paramsFullRoute.domain}` },
+    { label: toTitleCase(paramsFullRoute.area), path: `/industries/${paramsFullRoute.industry}/${paramsFullRoute.domain}/${paramsFullRoute.area}` },
+    { label: toTitleCase(paramsFullRoute.module), path: `/industries/${paramsFullRoute.industry}/${paramsFullRoute.domain}/${paramsFullRoute.area}/${paramsModuleKey(paramsFullRoute)}` },
+    { label: activeSolution.title, path: '#', isCurrent: true }
+  ] : [
+    { label: 'Healthcare', path: '/industries/healthcare' },
+    { label: 'Hospital', path: '/industries/healthcare/hospital' },
+    { label: 'Main Gate', path: '/industries/healthcare/hospital/main-gate' },
+    { label: 'Visitor Management', path: '/industries/healthcare/hospital/main-gate/visitor-management' },
+    { label: activeSolution.title, path: '#', isCurrent: true }
+  ];
+
+  function paramsModuleKey(params) {
+    return params?.module || 'visitor-management';
+  }
+
   return (
     <motion.main
-      className="w-full bg-[#f8fafc] min-h-screen pt-28 pb-24 text-slate-900 font-sans"
+      className="w-full bg-[#f8fafc] min-h-screen pt-24 pb-24 text-slate-900 font-sans"
       initial="initial"
       animate="animate"
       exit="exit"
       variants={PageTransition}
     >
-      {/* ── Page Header ── */}
-      <section className="bg-white border-b border-slate-200/80 px-6 py-16 text-center relative overflow-hidden">
-        <div className="container mx-auto max-w-4xl relative z-10 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold uppercase tracking-widest">
-            <span className="w-2 h-2 rounded-full bg-slate-800"></span>
-            ENTERPRISE SOLUTIONS SUITE
+      {/* ── Top Header Banner (Light & Refined) ── */}
+      <section className="bg-white border-b border-slate-200/80 px-4 sm:px-6 py-12 relative overflow-hidden">
+        <div className="container mx-auto max-w-7xl relative z-10 space-y-4">
+          
+          {/* Breadcrumb Path */}
+          <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-500">
+            {breadcrumbs.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2">
+                {item.isCurrent ? (
+                  <span className="text-slate-900 font-medium bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link href={item.path} className="hover:text-blue-600 transition-colors cursor-pointer">
+                    {item.label}
+                  </Link>
+                )}
+                {idx < breadcrumbs.length - 1 && (
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                )}
+              </div>
+            ))}
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Tailored AI & Automation Solutions
-          </h1>
-          <p className="text-slate-500 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
-            End-to-end intelligent security blueprints designed for complex operational environments, from campus security to automated gate controls.
-          </p>
+
+          <div className="space-y-2 pt-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-medium uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" /> SOLUTION BLUEPRINT
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-slate-900 tracking-tight leading-tight">
+              {activeSolution.title}
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base max-w-3xl font-normal leading-relaxed">
+              Comprehensive operational blueprint detailing current workflows, AI vision capabilities, hardware requirements, software integration, and measurable ROI.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* ── Alternating Split Layout Rows ── */}
+      {/* ── Visualized Alternating Solution Rows ── */}
       <section className="py-16 md:py-24 px-4 sm:px-6">
-        <div className="container mx-auto max-w-7xl space-y-20 md:space-y-28">
-          {solutionsData.map((item, index) => {
+        <div className="container mx-auto max-w-7xl space-y-16 md:space-y-28">
+          {activeSolution.cards.map((card, index) => {
             const isFlipped = index % 2 === 1;
 
             return (
               <motion.div
-                key={item.id}
+                key={card.id}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+                transition={{ duration: 0.5, delay: 0.05 }}
                 className={`grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-14 items-center ${
                   isFlipped ? 'lg:flex-row-reverse' : ''
                 }`}
               >
-                {/* Image Column */}
+                {/* Visual Image Column */}
                 <div className={`lg:col-span-6 ${isFlipped ? 'lg:order-2' : 'lg:order-1'}`}>
-                  <div className="w-full h-[260px] sm:h-[340px] md:h-[380px] rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm relative group bg-slate-900">
+                  <div className="w-full h-[280px] sm:h-[360px] md:h-[400px] rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm relative group bg-slate-100">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={card.image || 'https://images.unsplash.com/photo-1586769852044-692d6e3703f0?w=800&q=80'}
+                      alt={card.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-slate-950/10 group-hover:bg-transparent transition-colors" />
                   </div>
                 </div>
 
                 {/* Content Column */}
-                <div className={`lg:col-span-6 space-y-5 text-left ${isFlipped ? 'lg:order-1' : 'lg:order-2'}`}>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight leading-snug">
-                    {item.title}
-                  </h2>
-
-                  <p className="text-slate-600 text-sm sm:text-base font-normal leading-relaxed">
-                    {item.description}
-                  </p>
-
-                  <div className="pt-2">
-                    <Link
-                      href="/contact"
-                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold text-sm sm:text-base group transition-colors cursor-pointer"
-                    >
-                      <span>{item.linkText}</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                <div className={`lg:col-span-6 space-y-6 text-left ${isFlipped ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-medium text-blue-600 uppercase tracking-widest block">
+                      FEATURE {index + 1} OF {activeSolution.cards.length}
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
+                      {card.title}
+                    </h2>
                   </div>
+
+                  {/* Card Content Types Visualization */}
+                  {card.type === 'text' && (
+                    <div className="space-y-4">
+                      <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+                        {card.description}
+                      </p>
+                      <div className="grid grid-cols-2 gap-3 pt-2">
+                        <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
+                          <span className="text-xs text-slate-500 font-normal block">Scope</span>
+                          <span className="text-sm font-medium text-slate-900">Hospital Protection</span>
+                        </div>
+                        <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs">
+                          <span className="text-xs text-slate-500 font-normal block">Deployment</span>
+                          <span className="text-sm font-medium text-slate-900">Instant AI Vision</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {card.type === 'flow' && (
+                    <div className="space-y-2.5">
+                      {card.steps.map((step, idx) => (
+                        <div key={idx} className="flex items-center gap-3 p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-slate-800 text-sm font-normal">
+                          <span className="w-6 h-6 rounded-full bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center text-xs font-medium shrink-0">
+                            {idx + 1}
+                          </span>
+                          <span>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'list_negative' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl bg-rose-50/60 border border-rose-100 text-rose-950 text-xs sm:text-sm font-normal">
+                          <AlertCircle className="w-4.5 h-4.5 text-rose-600 shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'list_solution' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl bg-blue-50/60 border border-blue-100 text-slate-900 text-xs sm:text-sm font-normal">
+                          <CheckCircle2 className="w-4.5 h-4.5 text-blue-600 shrink-0" />
+                          <span>{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'hardware' && (
+                    <div className="grid grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2.5 p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-slate-800 text-xs sm:text-sm font-normal">
+                          <Cpu className="w-4.5 h-4.5 text-blue-600 shrink-0" />
+                          <span>{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'software' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl bg-indigo-50/50 border border-indigo-100 text-indigo-950 text-xs sm:text-sm font-normal">
+                          <div className="flex items-center gap-2.5">
+                            <Layers className="w-4.5 h-4.5 text-indigo-600 shrink-0" />
+                            <span>{item}</span>
+                          </div>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 uppercase font-medium">
+                            Active
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'workflow_tree' && (
+                    <div className="space-y-3.5 text-sm text-slate-800 font-normal">
+                      <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs space-y-2">
+                        {card.workflow.start.map((s, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-xs sm:text-sm">
+                            <Check className="w-4 h-4 text-blue-600 shrink-0" /> {s}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="p-3 text-center font-medium text-slate-900 bg-amber-50/80 border border-amber-200/80 rounded-xl text-xs sm:text-sm">
+                        Decision Point: {card.workflow.decision}
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                        <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200/80">
+                          <span className="font-medium text-emerald-900 block border-b border-emerald-200/80 pb-1 mb-1">NO Branch</span>
+                          {card.workflow.branches.no.map((b, idx) => <div key={idx} className="text-emerald-950 font-normal">• {b}</div>)}
+                        </div>
+                        <div className="p-3.5 rounded-xl bg-rose-50/60 border border-rose-200/80">
+                          <span className="font-medium text-rose-900 block border-b border-rose-200/80 pb-1 mb-1">YES Branch</span>
+                          {card.workflow.branches.yes.map((b, idx) => <div key={idx} className="text-rose-950 font-normal">• {b}</div>)}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {card.type === 'dashboard_metrics' && (
+                    <div className="grid grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs space-y-1">
+                          <span className="text-[11px] text-slate-500 font-medium block uppercase tracking-wider">{item.label}</span>
+                          <span className="text-sm sm:text-base font-semibold text-slate-800 block">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'reports' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-slate-800 text-xs sm:text-sm font-normal">
+                          <FileText className="w-4.5 h-4.5 text-blue-600 shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'benefits' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-2.5 p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-emerald-950 text-xs sm:text-sm font-medium">
+                          <Check className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'roi' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {card.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-slate-800 text-xs sm:text-sm font-medium">
+                          <span>{item.label}</span>
+                          {item.type === 'decrease' ? (
+                            <span className="text-emerald-700 font-medium text-xs uppercase bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">↓ Reduced</span>
+                          ) : (
+                            <span className="text-blue-700 font-medium text-xs uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-200">↑ Increased</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'tags' && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {card.items.map((item, idx) => (
+                        <span key={idx} className="px-3.5 py-1.5 rounded-xl bg-white text-slate-700 text-xs font-normal border border-slate-200 shadow-2xs">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {card.type === 'cta' && (
+                    <div className="space-y-4 pt-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {card.items.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-2.5 p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-2xs text-slate-800 text-xs sm:text-sm font-medium">
+                            <CheckCircle2 className="w-4.5 h-4.5 text-blue-600 shrink-0" />
+                            <span>{item.label}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="pt-2">
+                        <Link
+                          href="/contact"
+                          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-all shadow-md shadow-blue-600/20 cursor-pointer"
+                        >
+                          <PhoneCall className="w-4 h-4" />
+                          <span>Book Consultation Now</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             );
@@ -136,30 +323,30 @@ export default function Solution() {
         </div>
       </section>
 
-      {/* ── Standalone Final CTA Banner ── */}
-      <section className="px-4 sm:px-6 container mx-auto max-w-7xl">
-        <div className="rounded-[36px] bg-slate-950 px-8 py-14 md:p-16 text-center text-white overflow-hidden relative shadow-2xl border border-slate-800">
+      {/* ── Standalone Final CTA Banner (Light & Refined) ── */}
+      <section className="px-4 sm:px-6 container mx-auto max-w-7xl pt-8">
+        <div className="rounded-[36px] bg-gradient-to-br from-blue-50/80 via-white to-indigo-50/80 px-8 py-14 md:p-16 text-center text-slate-900 overflow-hidden relative shadow-lg border border-blue-100">
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold tracking-widest uppercase">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-blue-100 border border-blue-200 text-blue-700 text-xs font-medium tracking-widest uppercase">
               Deployment Consultation
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Ready to automate your facility?
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-tight">
+              Ready to automate your hospital security?
             </h2>
-            <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal">
               Connect with our solutions engineering team to build a tailored AI security architecture and calculate your exact return on investment.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm transition-all shadow-lg shadow-emerald-500/20 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm transition-all shadow-md shadow-blue-600/20 cursor-pointer"
               >
                 <PhoneCall className="w-4.5 h-4.5" />
                 Book Consultation
               </Link>
               <Link
                 href="/industries"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs sm:text-sm border border-slate-700 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-medium text-xs sm:text-sm border border-slate-200 shadow-2xs transition-all cursor-pointer"
               >
                 Browse All Industries
                 <ArrowRight className="w-4.5 h-4.5" />

@@ -18,7 +18,9 @@ function Router() {
       <Route path="/industries/:industry/:domain" component={Explorer} />
       <Route path="/industries/:industry/:domain/:area" component={Explorer} />
       <Route path="/industries/:industry/:domain/:area/:module" component={Explorer} />
+      <Route path="/industries/:industry/:domain/:area/:module/:problem" component={Solution} />
       <Route path="/solution" component={Solution} />
+      <Route path="/solution/:problem" component={Solution} />
       <Route path="/contact" component={Contact} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />

@@ -127,6 +127,16 @@ export function Navbar() {
                 </Link>
               );
             })}
+
+            <div className="pt-2 border-t border-slate-800/40">
+              <Link
+                href="/contact"
+                className="w-full inline-flex items-center justify-center py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-md"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
